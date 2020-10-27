@@ -18,7 +18,7 @@ jobs:
       env:
         IMAGE_REGISTRY: docker.pkg.github.com
         IMAGE_REPOSITORY: valuabletouch/thingsboard-docker
-        IMAGE_VERSION: build-$GITHUB_RUN_NUMBER
+        IMAGE_VERSION: build-${{ github.run_number }}
         THINGSBOARD_GIT_REPO: https://github.com/valuabletouch/thingsboard.git
         THINGSBOARD_GIT_BRANCH: master
       run: |
