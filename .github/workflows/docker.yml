@@ -32,8 +32,8 @@ jobs:
         docker build \
             --file Dockerfile.build \
             --tag $IMAGE_REGISTRY/$IMAGE_REPOSITORY/thingsboard-build:$IMAGE_VERSION \
-            --build-arg IMAGE_REPOSITORY=$IMAGE_REGISTRY/$IMAGE_REPOSITORY \
-            --build-arg IMAGE_VERSION=$IMAGE_VERSION \
+            --build-arg THINGSBOARD_GIT_REPO=$THINGSBOARD_GIT_REPO \
+            --build-arg THINGSBOARD_GIT_BRANCH=$THINGSBOARD_GIT_BRANCH \
             . && \
         \
         docker build \
@@ -78,7 +78,7 @@ jobs:
             --build-arg IMAGE_VERSION=$IMAGE_VERSION \
             .
 
-    - name: Push to GitHub Packages
+    - name: Push 'thingsboard-base' to GitHub Packages
       uses: docker/build-push-action@v1
       with:
         username: ${{ github.actor }}
@@ -87,7 +87,7 @@ jobs:
         repository: $IMAGE_REPOSITORY/thingsboard-base
         tag_with_ref: true
 
-    - name: Push to GitHub Packages
+    - name: Push 'thingsboard-node' to GitHub Packages
       uses: docker/build-push-action@v1
       with:
         username: ${{ github.actor }}
@@ -96,7 +96,7 @@ jobs:
         repository: $IMAGE_REPOSITORY/thingsboard-node:$IMAGE_VERSION
         tag_with_ref: true
 
-    - name: Push to GitHub Packages
+    - name: Push 'thingsboard-coap-transport' to GitHub Packages
       uses: docker/build-push-action@v1
       with:
         username: ${{ github.actor }}
@@ -105,7 +105,7 @@ jobs:
         repository: $IMAGE_REPOSITORY/thingsboard-coap-transport:$IMAGE_VERSION
         tag_with_ref: true
 
-    - name: Push to GitHub Packages
+    - name: Push 'thingsboard-http-transport' to GitHub Packages
       uses: docker/build-push-action@v1
       with:
         username: ${{ github.actor }}
@@ -114,7 +114,7 @@ jobs:
         repository: $IMAGE_REPOSITORY/thingsboard-http-transport:$IMAGE_VERSION
         tag_with_ref: true
 
-    - name: Push to GitHub Packages
+    - name: Push 'thingsboard-mqtt-transport' to GitHub Packages
       uses: docker/build-push-action@v1
       with:
         username: ${{ github.actor }}
@@ -123,7 +123,7 @@ jobs:
         repository: $IMAGE_REPOSITORY/thingsboard-mqtt-transport:$IMAGE_VERSION
         tag_with_ref: true
 
-    - name: Push to GitHub Packages
+    - name: Push 'thingsboard-js-executor' to GitHub Packages
       uses: docker/build-push-action@v1
       with:
         username: ${{ github.actor }}
@@ -132,7 +132,7 @@ jobs:
         repository: $IMAGE_REPOSITORY/thingsboard-js-executor:$IMAGE_VERSION
         tag_with_ref: true
 
-    - name: Push to GitHub Packages
+    - name: Push 'thingsboard-web-ui' to GitHub Packages
       uses: docker/build-push-action@v1
       with:
         username: ${{ github.actor }}
