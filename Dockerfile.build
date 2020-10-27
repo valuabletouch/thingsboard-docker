@@ -1,0 +1,17 @@
+ARG THINGSBOARD_GIT_REPO
+ARG THINGSBOARD_GIT_BRANCH
+
+FROM maven:3-openjdk-8
+
+LABEL maintainer="mehyaa@gmail.com"
+
+RUN set -ex && \
+    git clone --single-branch --branch $THINGSBOARD_GIT_BRANCH --progress $THINGSBOARD_GIT_REPO /src && \
+    cd /src && \
+    mvn clean install \
+        --errors \
+        --batch-mode \
+        --no-transfer-progress \
+        --define skipTests \
+        --define maven.test.skip=true \
+        --define dockerfile.skip=true

@@ -1,0 +1,21 @@
+FROM debian:stretch
+
+RUN addgroup \
+        --system thingsboard \
+        --gid=799 && \
+    adduser \
+        --quiet \
+        --system \
+        --uid=799 \
+        --ingroup thingsboard \
+        --quiet \
+        --disabled-login \
+        --disabled-password \
+        --no-create-home \
+        -gecos "ThingsBoard Application" \
+        thingsboard
+
+RUN set -ex && \
+    apt-get update && \
+    apt-get install -y --no-install-recommends openjdk-8-jre && \
+    rm -rf /var/lib/apt/lists/*

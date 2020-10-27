@@ -1,0 +1,30 @@
+ARG IMAGE_REPOSITORY
+ARG IMAGE_VERSION
+
+FROM $IMAGE_REPOSITORY/thingsboard-build:$IMAGE_VERSION AS build
+
+ARG IMAGE_REPOSITORY
+
+FROM $IMAGE_REPOSITORY/thingsboard-base
+
+LABEL maintainer="mehyaa@gmail.com"
+
+COPY docker-entrypoint-js-executor.sh /usr/bin/docker-entrypoint.sh
+
+COPY --from=build /src/msa/js-executor/target/tb-js-executor.deb /tmp
+
+RUN chmod a+x /usr/bin/docker-entrypoint.sh
+
+RUN yes | dpkg -i /tmp/tb-js-executor.deb
+
+RUN rm /tmp/tb-js-executor.deb
+
+RUN systemctl --no-reload disable --now tb-js-executor.service > /dev/null 2>&1 || :
+
+RUN chmod 555 /usr/share/tb-js-executor/bin/tb-js-executor
+
+USER thingsboard
+
+ENTRYPOINT ["docker-entrypoint.sh"]
+
+CMD []

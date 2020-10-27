@@ -1,0 +1,32 @@
+ARG IMAGE_REPOSITORY
+ARG IMAGE_VERSION
+
+FROM $IMAGE_REPOSITORY/thingsboard-build:$IMAGE_VERSION AS build
+
+ARG IMAGE_REPOSITORY
+
+FROM $IMAGE_REPOSITORY/thingsboard-base
+
+LABEL maintainer="mehyaa@gmail.com"
+
+COPY docker-entrypoint-coap-transport.sh /usr/bin/docker-entrypoint.sh
+
+COPY --from=build /src/msa/transport/coap/target/tb-coap-transport.deb /tmp
+
+RUN chmod a+x /usr/bin/docker-entrypoint.sh
+
+RUN yes | dpkg -i /tmp/tb-coap-transport.deb
+
+RUN rm /tmp/tb-coap-transport.deb
+
+RUN systemctl --no-reload disable --now tb-coap-transport.service > /dev/null 2>&1 || :
+
+RUN chown -R thingsboard:thingsboard /tmp
+
+RUN chmod 555 /usr/share/tb-coap-transport/bin/tb-coap-transport.jar
+
+USER thingsboard
+
+ENTRYPOINT ["docker-entrypoint.sh"]
+
+CMD []
