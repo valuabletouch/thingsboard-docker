@@ -96,7 +96,7 @@ jobs:
       run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login -u $GITHUB_ACTOR --password-stdin $IMAGE_REGISTRY
 
     - name: Push 'thingsboard-base' Image to Docker Registry
-      run: docker push $IMAGE_REGISTRY/$IMAGE_REPOSITORY/thingsboard-base:$IMAGE_VERSION
+      run: docker push $IMAGE_REGISTRY/$IMAGE_REPOSITORY/thingsboard-base
 
     - name: Push 'thingsboard-node' Image to Docker Registry
       run: docker push $IMAGE_REGISTRY/$IMAGE_REPOSITORY/thingsboard-node:$IMAGE_VERSION
