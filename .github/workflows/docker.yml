@@ -6,6 +6,13 @@ on:
       - main
   workflow_dispatch:
 
+env:
+  IMAGE_REGISTRY: docker.pkg.github.com
+  IMAGE_REPOSITORY: valuabletouch/thingsboard-docker
+  IMAGE_VERSION: build-${{ github.run_number }}
+  THINGSBOARD_GIT_REPO: https://github.com/valuabletouch/thingsboard.git
+  THINGSBOARD_GIT_BRANCH: master
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -14,63 +21,69 @@ jobs:
     - name: Checkout files
       uses: actions/checkout@v2
 
-    - name: Build the Docker images
-      env:
-        IMAGE_REGISTRY: docker.pkg.github.com
-        IMAGE_REPOSITORY: valuabletouch/thingsboard-docker
-        IMAGE_VERSION: build-${{ github.run_number }}
-        THINGSBOARD_GIT_REPO: https://github.com/valuabletouch/thingsboard.git
-        THINGSBOARD_GIT_BRANCH: master
+    - name: Build 'thingsboard-base' Docker image
       run: |
-        set -ex && \
-        \
         docker build \
             --file Dockerfile.base \
             --tag $IMAGE_REGISTRY/$IMAGE_REPOSITORY/thingsboard-base \
-            . && \
-        \
+            .
+
+    - name: Build 'thingsboard-build' Docker image
+      run: |
         docker build \
             --file Dockerfile.build \
             --tag $IMAGE_REGISTRY/$IMAGE_REPOSITORY/thingsboard-build:$IMAGE_VERSION \
             --build-arg THINGSBOARD_GIT_REPO=$THINGSBOARD_GIT_REPO \
             --build-arg THINGSBOARD_GIT_BRANCH=$THINGSBOARD_GIT_BRANCH \
-            . && \
-        \
+            .
+
+    - name: Build 'thingsboard-node' Docker image
+      run: |
         docker build \
             --file Dockerfile.node \
             --tag $IMAGE_REGISTRY/$IMAGE_REPOSITORY/thingsboard-node:$IMAGE_VERSION \
             --build-arg IMAGE_REPOSITORY=$IMAGE_REGISTRY/$IMAGE_REPOSITORY \
             --build-arg IMAGE_VERSION=$IMAGE_VERSION \
-            . && \
-        \
+            .
+
+    - name: Build 'thingsboard-coap-transport' Docker image
+      run: |
         docker build \
             --file Dockerfile.coap-transport \
             --tag $IMAGE_REGISTRY/$IMAGE_REPOSITORY/thingsboard-coap-transport:$IMAGE_VERSION \
             --build-arg IMAGE_REPOSITORY=$IMAGE_REGISTRY/$IMAGE_REPOSITORY \
             --build-arg IMAGE_VERSION=$IMAGE_VERSION \
-            . && \
-        \
+            .
+
+    - name: Build 'thingsboard-http-transport' Docker image
+      run: |
         docker build \
             --file Dockerfile.http-transport \
             --tag $IMAGE_REGISTRY/$IMAGE_REPOSITORY/thingsboard-http-transport:$IMAGE_VERSION \
             --build-arg IMAGE_REPOSITORY=$IMAGE_REGISTRY/$IMAGE_REPOSITORY \
             --build-arg IMAGE_VERSION=$IMAGE_VERSION \
-            . && \
-        \
+            .
+
+    - name: Build 'thingsboard-mqtt-transport' Docker image
+      run: |
         docker build \
             --file Dockerfile.mqtt-transport \
             --tag $IMAGE_REGISTRY/$IMAGE_REPOSITORY/thingsboard-mqtt-transport:$IMAGE_VERSION \
             --build-arg IMAGE_REPOSITORY=$IMAGE_REGISTRY/$IMAGE_REPOSITORY \
             --build-arg IMAGE_VERSION=$IMAGE_VERSION \
-            . && \
-        \
+            .
+
+    - name: Build 'thingsboard-js-executor' Docker image
+      run: |
         docker build \
             --file Dockerfile.js-executor \
             --tag $IMAGE_REGISTRY/$IMAGE_REPOSITORY/thingsboard-js-executor:$IMAGE_VERSION \
             --build-arg IMAGE_REPOSITORY=$IMAGE_REGISTRY/$IMAGE_REPOSITORY \
             --build-arg IMAGE_VERSION=$IMAGE_VERSION \
-            . && \
-        \
+            .
+
+    - name: Build 'thingsboard-web-ui' Docker image
+      run: |
         docker build \
             --file Dockerfile.web-ui \
             --tag $IMAGE_REGISTRY/$IMAGE_REPOSITORY/thingsboard-web-ui:$IMAGE_VERSION \
