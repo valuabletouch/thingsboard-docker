@@ -12,7 +12,4 @@ RUN set -ex && \
         --errors \
         --batch-mode \
         --no-transfer-progress \
-        --define skipTests \
-        --define blackBoxTests.skip=true \
-        --define maven.test.skip=true \
         --define dockerfile.skip=true
