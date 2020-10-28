@@ -108,7 +108,7 @@ jobs:
       run: docker push $IMAGE_REGISTRY/$IMAGE_REPOSITORY/thingsboard-http-transport:$IMAGE_VERSION
 
     - name: Push 'thingsboard-mqtt-transport' Image to Docker Registry
-    run: docker push $IMAGE_REGISTRY/$IMAGE_REPOSITORY/thingsboard-mqtt-transport:$IMAGE_VERSION
+      run: docker push $IMAGE_REGISTRY/$IMAGE_REPOSITORY/thingsboard-mqtt-transport:$IMAGE_VERSION
 
     - name: Push 'thingsboard-js-executor' Image to Docker Registry
       run: docker push $IMAGE_REGISTRY/$IMAGE_REPOSITORY/thingsboard-js-executor:$IMAGE_VERSION
