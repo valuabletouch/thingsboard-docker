@@ -9,7 +9,7 @@ on:
 
 env:
   IMAGE_REGISTRY: docker.pkg.github.com
-  IMAGE_REPOSITORY: valuabletouch/thingsboard-docker
+  IMAGE_REPOSITORY: valuabletouch/thingsboard
   IMAGE_VERSION: build-${{ github.run_number }}
   THINGSBOARD_GIT_REPO: https://github.com/valuabletouch/thingsboard.git
   THINGSBOARD_GIT_BRANCH: master
@@ -22,72 +22,72 @@ jobs:
     - name: Checkout files
       uses: actions/checkout@v2
 
-    - name: Build 'thingsboard-base' Docker Image
+    - name: Build 'ThingsBoard Base' Docker Image
       run: |
         docker build \
             --file Dockerfile.base \
-            --tag $IMAGE_REGISTRY/$IMAGE_REPOSITORY/thingsboard-base \
+            --tag $IMAGE_REGISTRY/$IMAGE_REPOSITORY/base \
             .
 
-    - name: Build 'thingsboard-build' Docker Image
+    - name: Build 'ThingsBoard Build Intermadiate' Docker Image
       run: |
         docker build \
             --file Dockerfile.build \
-            --tag $IMAGE_REGISTRY/$IMAGE_REPOSITORY/thingsboard-build:$IMAGE_VERSION \
+            --tag $IMAGE_REGISTRY/$IMAGE_REPOSITORY/build:$IMAGE_VERSION \
             --build-arg THINGSBOARD_GIT_REPO=$THINGSBOARD_GIT_REPO \
             --build-arg THINGSBOARD_GIT_BRANCH=$THINGSBOARD_GIT_BRANCH \
             .
 
-    - name: Build 'thingsboard-node' Docker Image
+    - name: Build 'ThingsBoard Node Microservice' Docker Image
       run: |
         docker build \
             --file Dockerfile.node \
-            --tag $IMAGE_REGISTRY/$IMAGE_REPOSITORY/thingsboard-node:$IMAGE_VERSION \
+            --tag $IMAGE_REGISTRY/$IMAGE_REPOSITORY/node:$IMAGE_VERSION \
             --build-arg IMAGE_REPOSITORY=$IMAGE_REGISTRY/$IMAGE_REPOSITORY \
             --build-arg IMAGE_VERSION=$IMAGE_VERSION \
             .
 
-    - name: Build 'thingsboard-coap-transport' Docker Image
+    - name: Build 'ThingsBoard COAP Transport Microservice' Docker Image
       run: |
         docker build \
             --file Dockerfile.coap-transport \
-            --tag $IMAGE_REGISTRY/$IMAGE_REPOSITORY/thingsboard-coap-transport:$IMAGE_VERSION \
+            --tag $IMAGE_REGISTRY/$IMAGE_REPOSITORY/coap-transport:$IMAGE_VERSION \
             --build-arg IMAGE_REPOSITORY=$IMAGE_REGISTRY/$IMAGE_REPOSITORY \
             --build-arg IMAGE_VERSION=$IMAGE_VERSION \
             .
 
-    - name: Build 'thingsboard-http-transport' Docker Image
+    - name: Build 'ThingsBoard HTTP Transport Microservice' Docker Image
       run: |
         docker build \
             --file Dockerfile.http-transport \
-            --tag $IMAGE_REGISTRY/$IMAGE_REPOSITORY/thingsboard-http-transport:$IMAGE_VERSION \
+            --tag $IMAGE_REGISTRY/$IMAGE_REPOSITORY/http-transport:$IMAGE_VERSION \
             --build-arg IMAGE_REPOSITORY=$IMAGE_REGISTRY/$IMAGE_REPOSITORY \
             --build-arg IMAGE_VERSION=$IMAGE_VERSION \
             .
 
-    - name: Build 'thingsboard-mqtt-transport' Docker Image
+    - name: Build 'ThingsBoard MQTT Transport Microservice' Docker Image
       run: |
         docker build \
             --file Dockerfile.mqtt-transport \
-            --tag $IMAGE_REGISTRY/$IMAGE_REPOSITORY/thingsboard-mqtt-transport:$IMAGE_VERSION \
+            --tag $IMAGE_REGISTRY/$IMAGE_REPOSITORY/mqtt-transport:$IMAGE_VERSION \
             --build-arg IMAGE_REPOSITORY=$IMAGE_REGISTRY/$IMAGE_REPOSITORY \
             --build-arg IMAGE_VERSION=$IMAGE_VERSION \
             .
 
-    - name: Build 'thingsboard-js-executor' Docker Image
+    - name: Build 'ThingsBoard JavaScript Executor Microservice' Docker Image
       run: |
         docker build \
             --file Dockerfile.js-executor \
-            --tag $IMAGE_REGISTRY/$IMAGE_REPOSITORY/thingsboard-js-executor:$IMAGE_VERSION \
+            --tag $IMAGE_REGISTRY/$IMAGE_REPOSITORY/js-executor:$IMAGE_VERSION \
             --build-arg IMAGE_REPOSITORY=$IMAGE_REGISTRY/$IMAGE_REPOSITORY \
             --build-arg IMAGE_VERSION=$IMAGE_VERSION \
             .
 
-    - name: Build 'thingsboard-web-ui' Docker Image
+    - name: Build 'ThingsBoard Web UI Microservice' Docker Image
       run: |
         docker build \
             --file Dockerfile.web-ui \
-            --tag $IMAGE_REGISTRY/$IMAGE_REPOSITORY/thingsboard-web-ui:$IMAGE_VERSION \
+            --tag $IMAGE_REGISTRY/$IMAGE_REPOSITORY/web-ui:$IMAGE_VERSION \
             --build-arg IMAGE_REPOSITORY=$IMAGE_REGISTRY/$IMAGE_REPOSITORY \
             --build-arg IMAGE_VERSION=$IMAGE_VERSION \
             .
@@ -95,23 +95,23 @@ jobs:
     - name: Login to Docker Registry
       run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login -u $GITHUB_ACTOR --password-stdin $IMAGE_REGISTRY
 
-    - name: Push 'thingsboard-base' Image to Docker Registry
-      run: docker push $IMAGE_REGISTRY/$IMAGE_REPOSITORY/thingsboard-base
+    - name: Push 'ThingsBoard Base' Image to Docker Registry
+      run: docker push $IMAGE_REGISTRY/$IMAGE_REPOSITORY/base
 
-    - name: Push 'thingsboard-node' Image to Docker Registry
-      run: docker push $IMAGE_REGISTRY/$IMAGE_REPOSITORY/thingsboard-node:$IMAGE_VERSION
+    - name: Push 'ThingsBoard Node Microservice' Image to Docker Registry
+      run: docker push $IMAGE_REGISTRY/$IMAGE_REPOSITORY/node:$IMAGE_VERSION
 
-    - name: Push 'thingsboard-coap-transport' Image to Docker Registry
-      run: docker push $IMAGE_REGISTRY/$IMAGE_REPOSITORY/thingsboard-coap-transport:$IMAGE_VERSION
+    - name: Push 'ThingsBoard COAP Transport Microservice' Image to Docker Registry
+      run: docker push $IMAGE_REGISTRY/$IMAGE_REPOSITORY/coap-transport:$IMAGE_VERSION
 
-    - name: Push 'thingsboard-http-transport' Image to Docker Registry
-      run: docker push $IMAGE_REGISTRY/$IMAGE_REPOSITORY/thingsboard-http-transport:$IMAGE_VERSION
+    - name: Push 'ThingsBoard HTTP Transport Microservice' Image to Docker Registry
+      run: docker push $IMAGE_REGISTRY/$IMAGE_REPOSITORY/http-transport:$IMAGE_VERSION
 
-    - name: Push 'thingsboard-mqtt-transport' Image to Docker Registry
-      run: docker push $IMAGE_REGISTRY/$IMAGE_REPOSITORY/thingsboard-mqtt-transport:$IMAGE_VERSION
+    - name: Push 'ThingsBoard MQTT Transport Microservice' Image to Docker Registry
+      run: docker push $IMAGE_REGISTRY/$IMAGE_REPOSITORY/mqtt-transport:$IMAGE_VERSION
 
-    - name: Push 'thingsboard-js-executor' Image to Docker Registry
-      run: docker push $IMAGE_REGISTRY/$IMAGE_REPOSITORY/thingsboard-js-executor:$IMAGE_VERSION
+    - name: Push 'ThingsBoard JavaScript Executor Microservice' Image to Docker Registry
+      run: docker push $IMAGE_REGISTRY/$IMAGE_REPOSITORY/js-executor:$IMAGE_VERSION
 
-    - name: Push 'thingsboard-web-ui' Image to Docker Registry
-      run: docker push $IMAGE_REGISTRY/$IMAGE_REPOSITORY/thingsboard-web-ui:$IMAGE_VERSION
+    - name: Push 'ThingsBoard Web UI Microservice' Image to Docker Registry
+      run: docker push $IMAGE_REGISTRY/$IMAGE_REPOSITORY/web-ui:$IMAGE_VERSION
