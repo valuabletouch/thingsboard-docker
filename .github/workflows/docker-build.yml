@@ -22,14 +22,14 @@ jobs:
     - name: Checkout files
       uses: actions/checkout@v2
 
-    - name: Build 'thingsboard-base' Docker image
+    - name: Build 'thingsboard-base' Docker Image
       run: |
         docker build \
             --file Dockerfile.base \
             --tag $IMAGE_REGISTRY/$IMAGE_REPOSITORY/thingsboard-base \
             .
 
-    - name: Build 'thingsboard-build' Docker image
+    - name: Build 'thingsboard-build' Docker Image
       run: |
         docker build \
             --file Dockerfile.build \
@@ -38,7 +38,7 @@ jobs:
             --build-arg THINGSBOARD_GIT_BRANCH=$THINGSBOARD_GIT_BRANCH \
             .
 
-    - name: Build 'thingsboard-node' Docker image
+    - name: Build 'thingsboard-node' Docker Image
       run: |
         docker build \
             --file Dockerfile.node \
@@ -47,7 +47,7 @@ jobs:
             --build-arg IMAGE_VERSION=$IMAGE_VERSION \
             .
 
-    - name: Build 'thingsboard-coap-transport' Docker image
+    - name: Build 'thingsboard-coap-transport' Docker Image
       run: |
         docker build \
             --file Dockerfile.coap-transport \
@@ -56,7 +56,7 @@ jobs:
             --build-arg IMAGE_VERSION=$IMAGE_VERSION \
             .
 
-    - name: Build 'thingsboard-http-transport' Docker image
+    - name: Build 'thingsboard-http-transport' Docker Image
       run: |
         docker build \
             --file Dockerfile.http-transport \
@@ -65,7 +65,7 @@ jobs:
             --build-arg IMAGE_VERSION=$IMAGE_VERSION \
             .
 
-    - name: Build 'thingsboard-mqtt-transport' Docker image
+    - name: Build 'thingsboard-mqtt-transport' Docker Image
       run: |
         docker build \
             --file Dockerfile.mqtt-transport \
@@ -74,7 +74,7 @@ jobs:
             --build-arg IMAGE_VERSION=$IMAGE_VERSION \
             .
 
-    - name: Build 'thingsboard-js-executor' Docker image
+    - name: Build 'thingsboard-js-executor' Docker Image
       run: |
         docker build \
             --file Dockerfile.js-executor \
@@ -83,7 +83,7 @@ jobs:
             --build-arg IMAGE_VERSION=$IMAGE_VERSION \
             .
 
-    - name: Build 'thingsboard-web-ui' Docker image
+    - name: Build 'thingsboard-web-ui' Docker Image
       run: |
         docker build \
             --file Dockerfile.web-ui \
@@ -92,65 +92,26 @@ jobs:
             --build-arg IMAGE_VERSION=$IMAGE_VERSION \
             .
 
-    - name: Push 'thingsboard-base' to GitHub Packages
-      uses: docker/build-push-action@v1
-      with:
-        username: ${{ github.actor }}
-        password: ${{ secrets.GITHUB_TOKEN }}
-        registry: $IMAGE_REGISTRY
-        repository: $IMAGE_REPOSITORY/thingsboard-base
-        tag_with_ref: true
+    - name: Login to Docker Registry
+      run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login -u $GITHUB_ACTOR --password-stdin $IMAGE_REGISTRY
 
-    - name: Push 'thingsboard-node' to GitHub Packages
-      uses: docker/build-push-action@v1
-      with:
-        username: ${{ github.actor }}
-        password: ${{ secrets.GITHUB_TOKEN }}
-        registry: $IMAGE_REGISTRY
-        repository: $IMAGE_REPOSITORY/thingsboard-node:$IMAGE_VERSION
-        tag_with_ref: true
+    - name: Push 'thingsboard-base' Image to Docker Registry
+      run: docker push $IMAGE_REGISTRY/$IMAGE_REPOSITORY/thingsboard-base:$IMAGE_VERSION
 
-    - name: Push 'thingsboard-coap-transport' to GitHub Packages
-      uses: docker/build-push-action@v1
-      with:
-        username: ${{ github.actor }}
-        password: ${{ secrets.GITHUB_TOKEN }}
-        registry: $IMAGE_REGISTRY
-        repository: $IMAGE_REPOSITORY/thingsboard-coap-transport:$IMAGE_VERSION
-        tag_with_ref: true
+    - name: Push 'thingsboard-node' Image to Docker Registry
+      run: docker push $IMAGE_REGISTRY/$IMAGE_REPOSITORY/thingsboard-node:$IMAGE_VERSION
 
-    - name: Push 'thingsboard-http-transport' to GitHub Packages
-      uses: docker/build-push-action@v1
-      with:
-        username: ${{ github.actor }}
-        password: ${{ secrets.GITHUB_TOKEN }}
-        registry: $IMAGE_REGISTRY
-        repository: $IMAGE_REPOSITORY/thingsboard-http-transport:$IMAGE_VERSION
-        tag_with_ref: true
+    - name: Push 'thingsboard-coap-transport' Image to Docker Registry
+      run: docker push $IMAGE_REGISTRY/$IMAGE_REPOSITORY/thingsboard-coap-transport:$IMAGE_VERSION
 
-    - name: Push 'thingsboard-mqtt-transport' to GitHub Packages
-      uses: docker/build-push-action@v1
-      with:
-        username: ${{ github.actor }}
-        password: ${{ secrets.GITHUB_TOKEN }}
-        registry: $IMAGE_REGISTRY
-        repository: $IMAGE_REPOSITORY/thingsboard-mqtt-transport:$IMAGE_VERSION
-        tag_with_ref: true
+    - name: Push 'thingsboard-http-transport' Image to Docker Registry
+      run: docker push $IMAGE_REGISTRY/$IMAGE_REPOSITORY/thingsboard-http-transport:$IMAGE_VERSION
 
-    - name: Push 'thingsboard-js-executor' to GitHub Packages
-      uses: docker/build-push-action@v1
-      with:
-        username: ${{ github.actor }}
-        password: ${{ secrets.GITHUB_TOKEN }}
-        registry: $IMAGE_REGISTRY
-        repository: $IMAGE_REPOSITORY/thingsboard-js-executor:$IMAGE_VERSION
-        tag_with_ref: true
+    - name: Push 'thingsboard-mqtt-transport' Image to Docker Registry
+    run: docker push $IMAGE_REGISTRY/$IMAGE_REPOSITORY/thingsboard-mqtt-transport:$IMAGE_VERSION
 
-    - name: Push 'thingsboard-web-ui' to GitHub Packages
-      uses: docker/build-push-action@v1
-      with:
-        username: ${{ github.actor }}
-        password: ${{ secrets.GITHUB_TOKEN }}
-        registry: $IMAGE_REGISTRY
-        repository: $IMAGE_REPOSITORY/thingsboard-web-ui:$IMAGE_VERSION
-        tag_with_ref: true
+    - name: Push 'thingsboard-js-executor' Image to Docker Registry
+      run: docker push $IMAGE_REGISTRY/$IMAGE_REPOSITORY/thingsboard-js-executor:$IMAGE_VERSION
+
+    - name: Push 'thingsboard-web-ui' Image to Docker Registry
+      run: docker push $IMAGE_REGISTRY/$IMAGE_REPOSITORY/thingsboard-web-ui:$IMAGE_VERSION
