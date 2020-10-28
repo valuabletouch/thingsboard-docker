@@ -5,6 +5,7 @@ on:
     branches:
       - main
   workflow_dispatch:
+  repository_dispatch:
 
 env:
   IMAGE_REGISTRY: docker.pkg.github.com
