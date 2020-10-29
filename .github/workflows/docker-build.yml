@@ -93,7 +93,7 @@ jobs:
             .
 
     - name: Login to Docker Registry
-      run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login -u $GITHUB_ACTOR --password-stdin $IMAGE_REGISTRY
+      run: echo "${{ secrets.PUSH_PACKAGE_PAT }}" | docker login -u $GITHUB_ACTOR --password-stdin $IMAGE_REGISTRY
 
     - name: Push 'ThingsBoard Base' Image to Docker Registry
       run: docker push $IMAGE_REGISTRY/$IMAGE_REPOSITORY/base
