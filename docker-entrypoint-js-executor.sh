@@ -1,14 +1,21 @@
 #!/bin/bash
 
-CONF_FOLDER="/usr/share/tb-js-executor/conf"
+APP_NAME="ThingsBoard JavaScript Executor Microservice"
 
-commandFile=/usr/share/tb-js-executor/bin/tb-js-executor
-configFile=tb-js-executor.conf
+APP_SHORT_NAME=tb-js-executor
 
-source "${CONF_FOLDER}/${configFile}"
+APP_DIRECTORY=/usr/share/$APP_SHORT_NAME
 
-echo "Starting 'ThingsBoard JavaScript Executor Microservice' ..."
+CONFIG_DIRECTORY=$APP_DIRECTORY/conf
 
-cd /usr/share/tb-js-executor/bin
+commandFilePath=$APP_DIRECTORY/bin/$APP_SHORT_NAME
 
-exec /bin/sh -c "$commandFile"
+envConfigFilePath=$CONFIG_DIRECTORY/$APP_SHORT_NAME.conf
+
+source "$envConfigFilePath"
+
+echo "Starting '$APP_NAME' ..."
+
+cd $APP_DIRECTORY/bin
+
+exec /bin/sh -c "$commandFilePath"

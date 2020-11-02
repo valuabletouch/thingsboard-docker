@@ -1,22 +1,53 @@
 #!/bin/bash
 
-CONF_FOLDER="/config"
+APP_NAME="ThingsBoard Node Microservice"
 
-jarFile=/usr/share/thingsboard/bin/thingsboard.jar
-configFile=thingsboard.conf
+APP_SHORT_NAME=thingsboard
 
-source "${CONF_FOLDER}/${configFile}"
+APP_DIRECTORY=/usr/share/$APP_SHORT_NAME
 
-export LOADER_PATH=${CONF_FOLDER},${LOADER_PATH}
+APP_MAIN_CLASS=org.thingsboard.server.ThingsboardServerApplication
 
-echo "Starting 'ThingsBoard Node Microservice' ..."
+if [[ -z "$CONFIG_DIRECTORY" ]]; then
+    CONFIG_DIRECTORY="/config"
+fi
 
-cd /usr/share/thingsboard/bin
+if [ ! -d "$CONFIG_DIRECTORY" ]; then
+    mkdir -p $CONFIG_DIRECTORY
+fi
+
+jarFilePath=$APP_DIRECTORY/bin/$APP_SHORT_NAME.jar
+
+envConfigFilePath=$CONFIG_DIRECTORY/$APP_SHORT_NAME.conf
+
+propConfigFilePath=$CONFIG_DIRECTORY/$APP_SHORT_NAME.yml
+
+logConfigFilePath=$CONFIG_DIRECTORY/logback.xml
+
+if [ ! -f "$envConfigFilePath" ]; then
+    cp $APP_DIRECTORY/conf/$APP_SHORT_NAME.conf $envConfigFilePath
+fi
+
+if [ ! -f "$propConfigFilePath" ]; then
+    cp $APP_DIRECTORY/conf/$APP_SHORT_NAME.yml $propConfigFilePath
+fi
+
+if [ ! -f "$logConfigFilePath" ]; then
+    cp $APP_DIRECTORY/conf/logback.yml $logConfigFilePath
+fi
+
+source "$envConfigFilePath"
+
+export LOADER_PATH=$CONFIG_DIRECTORY,$LOADER_PATH
+
+echo "Starting '$APP_NAME' ..."
+
+cd $APP_DIRECTORY/bin
 
 exec java -cp \
-    ${jarFile} \
+    $jarFilePath \
     $JAVA_OPTS \
-    -Dloader.main=org.thingsboard.server.ThingsboardServerApplication \
+    -Dloader.main=$APP_MAIN_CLASS \
     -Dspring.jpa.hibernate.ddl-auto=none \
-    -Dlogging.config=/config/logback.xml \
+    -Dlogging.config=$logConfigFilePath \
     org.springframework.boot.loader.PropertiesLauncher
