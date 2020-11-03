@@ -23,6 +23,8 @@ RUN systemctl --no-reload disable --now tb-coap-transport.service > /dev/null 2>
 
 RUN chown -R thingsboard:thingsboard /tmp
 
+RUN chown -R thingsboard:thingsboard /config
+
 RUN chmod 555 /usr/share/tb-coap-transport/bin/tb-coap-transport.jar
 
 USER thingsboard

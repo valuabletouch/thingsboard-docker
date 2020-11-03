@@ -23,6 +23,8 @@ RUN systemctl --no-reload disable --now thingsboard.service > /dev/null 2>&1 || 
 
 RUN chown -R thingsboard:thingsboard /tmp
 
+RUN chown -R thingsboard:thingsboard /config
+
 RUN chmod 555 /usr/share/thingsboard/bin/thingsboard.jar
 
 USER thingsboard

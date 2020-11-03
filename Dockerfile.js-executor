@@ -21,6 +21,8 @@ RUN rm /tmp/tb-js-executor.deb
 
 RUN systemctl --no-reload disable --now tb-js-executor.service > /dev/null 2>&1 || :
 
+RUN chown -R thingsboard:thingsboard /config
+
 RUN chmod 555 /usr/share/tb-js-executor/bin/tb-js-executor
 
 USER thingsboard

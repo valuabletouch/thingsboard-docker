@@ -23,6 +23,8 @@ RUN systemctl --no-reload disable --now tb-mqtt-transport.service > /dev/null 2>
 
 RUN chown -R thingsboard:thingsboard /tmp
 
+RUN chown -R thingsboard:thingsboard /config
+
 RUN chmod 555 /usr/share/tb-mqtt-transport/bin/tb-mqtt-transport.jar
 
 USER thingsboard

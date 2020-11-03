@@ -23,6 +23,8 @@ RUN systemctl --no-reload disable --now tb-http-transport.service > /dev/null 2>
 
 RUN chown -R thingsboard:thingsboard /tmp
 
+RUN chown -R thingsboard:thingsboard /config
+
 RUN chmod 555 /usr/share/tb-http-transport/bin/tb-http-transport.jar
 
 USER thingsboard

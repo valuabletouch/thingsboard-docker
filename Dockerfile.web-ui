@@ -23,6 +23,8 @@ RUN systemctl --no-reload disable --now tb-web-ui.service > /dev/null 2>&1 || :
 
 RUN chown -R thingsboard:thingsboard /tmp
 
+RUN chown -R thingsboard:thingsboard /config
+
 RUN chmod 555 /usr/share/tb-web-ui/bin/tb-web-ui
 
 USER thingsboard
