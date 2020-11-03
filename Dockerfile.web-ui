@@ -9,7 +9,7 @@ FROM $IMAGE_REPOSITORY/base
 
 LABEL maintainer="yasin.akar@vtc.com.tr"
 
-COPY docker-entrypoint-node.sh /usr/bin/docker-entrypoint.sh
+COPY docker-entrypoint-web-ui.sh /usr/bin/docker-entrypoint.sh
 
 RUN set -ex && \
     chmod a+x /usr/bin/docker-entrypoint.sh && \
