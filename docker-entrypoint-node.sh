@@ -2,52 +2,56 @@
 
 APP_NAME="ThingsBoard Node Microservice"
 
-APP_SHORT_NAME=thingsboard
+APP_SHORT_NAME="thingsboard"
 
-APP_DIRECTORY=/usr/share/$APP_SHORT_NAME
+APP_DIRECTORY="/usr/share/$APP_SHORT_NAME"
 
-APP_MAIN_CLASS=org.thingsboard.server.ThingsboardServerApplication
+APP_BIN_DIRECTORY="/usr/share/$APP_SHORT_NAME/bin"
+
+APP_CONFIG_DIRECTORY="/usr/share/$APP_SHORT_NAME/conf"
+
+APP_MAIN_CLASS="org.thingsboard.server.ThingsboardServerApplication"
 
 if [[ -z "$CONFIG_DIRECTORY" ]]; then
     CONFIG_DIRECTORY="/config"
 fi
 
 if [ ! -d "$CONFIG_DIRECTORY" ]; then
-    mkdir -p $CONFIG_DIRECTORY
+    mkdir -p "$CONFIG_DIRECTORY"
 fi
 
-jarFilePath=$APP_DIRECTORY/bin/$APP_SHORT_NAME.jar
+jarFilePath="$APP_BIN_DIRECTORY/$APP_SHORT_NAME.jar"
 
-envConfigFilePath=$CONFIG_DIRECTORY/$APP_SHORT_NAME.conf
+envConfigFilePath="$CONFIG_DIRECTORY/$APP_SHORT_NAME.conf"
 
-propConfigFilePath=$CONFIG_DIRECTORY/$APP_SHORT_NAME.yml
+propConfigFilePath="$CONFIG_DIRECTORY/$APP_SHORT_NAME.yml"
 
-logConfigFilePath=$CONFIG_DIRECTORY/logback.xml
+logConfigFilePath="$CONFIG_DIRECTORY/logback.xml"
 
 if [ ! -f "$envConfigFilePath" ]; then
-    cp $APP_DIRECTORY/conf/$APP_SHORT_NAME.conf $envConfigFilePath
+    cp "$APP_CONFIG_DIRECTORY/$APP_SHORT_NAME.conf" "$envConfigFilePath"
 fi
 
 if [ ! -f "$propConfigFilePath" ]; then
-    cp $APP_DIRECTORY/conf/$APP_SHORT_NAME.yml $propConfigFilePath
+    cp "$APP_CONFIG_DIRECTORY/$APP_SHORT_NAME.yml" "$propConfigFilePath"
 fi
 
 if [ ! -f "$logConfigFilePath" ]; then
-    cp $APP_DIRECTORY/conf/logback.yml $logConfigFilePath
+    cp "$APP_CONFIG_DIRECTORY/logback.yml" "$logConfigFilePath"
 fi
 
 source "$envConfigFilePath"
 
-export LOADER_PATH=$CONFIG_DIRECTORY,$LOADER_PATH
+export LOADER_PATH="$CONFIG_DIRECTORY,$LOADER_PATH"
 
 echo "Starting '$APP_NAME' ..."
 
-cd $APP_DIRECTORY/bin
+cd "$APP_BIN_DIRECTORY"
 
 exec java -cp \
-    $jarFilePath \
+    "$jarFilePath" \
     $JAVA_OPTS \
     -Dloader.main=$APP_MAIN_CLASS \
     -Dspring.jpa.hibernate.ddl-auto=none \
-    -Dlogging.config=$logConfigFilePath \
+    -Dlogging.config="$logConfigFilePath" \
     org.springframework.boot.loader.PropertiesLauncher
