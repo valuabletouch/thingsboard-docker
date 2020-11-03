@@ -22,6 +22,8 @@ logConfigFilePath="$appConfigDir/logback.xml"
 
 source "$envConfigFilePath"
 
+ln -sf /proc/self/fd/1 "/var/log/$appCode/$appCode.log"
+
 echo "Starting '$appName' ..."
 
 cd "$appBinDir"

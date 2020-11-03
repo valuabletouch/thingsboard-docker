@@ -16,6 +16,8 @@ envConfigFilePath="$appConfigDir/$appCode.conf"
 
 source "$envConfigFilePath"
 
+ln -sf /proc/self/fd/1 "/var/log/$appCode/$appCode.log"
+
 echo "Starting '$appName' ..."
 
 cd "$appBinDir"
