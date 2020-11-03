@@ -7,23 +7,23 @@ ARG IMAGE_REPOSITORY
 
 FROM $IMAGE_REPOSITORY/base
 
-LABEL maintainer="mehyaa@gmail.com"
+LABEL maintainer="yasin.akar@vtc.com.tr"
 
 COPY docker-entrypoint-js-executor.sh /usr/bin/docker-entrypoint.sh
 
-COPY --from=build /src/msa/js-executor/target/tb-js-executor.deb /tmp
+RUN set -ex && \
+    chmod a+x /usr/bin/docker-entrypoint.sh && \
+    mkdir /config && \
+    chown -R thingsboard:thingsboard /config && \
+    chown -R thingsboard:thingsboard /tmp
 
-RUN chmod a+x /usr/bin/docker-entrypoint.sh
+COPY --from=build /src/msa/js-executor/target/tb-js-executor.deb /tmp/setup.deb
 
-RUN yes | dpkg -i /tmp/tb-js-executor.deb
-
-RUN rm /tmp/tb-js-executor.deb
-
-RUN systemctl --no-reload disable --now tb-js-executor.service > /dev/null 2>&1 || :
-
-RUN chown -R thingsboard:thingsboard /config
-
-RUN chmod 555 /usr/share/tb-js-executor/bin/tb-js-executor
+RUN set -ex && \
+    yes | dpkg -i /tmp/setup.deb && \
+    rm /tmp/setup.deb && \
+    systemctl --no-reload disable --now tb-js-executor.service > /dev/null 2>&1 || : && \
+    chmod 555 /usr/share/tb-js-executor/bin/tb-js-executor
 
 USER thingsboard
 

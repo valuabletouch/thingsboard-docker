@@ -7,25 +7,23 @@ ARG IMAGE_REPOSITORY
 
 FROM $IMAGE_REPOSITORY/base
 
-LABEL maintainer="mehyaa@gmail.com"
+LABEL maintainer="yasin.akar@vtc.com.tr"
 
 COPY docker-entrypoint-node.sh /usr/bin/docker-entrypoint.sh
 
-COPY --from=build /src/msa/web-ui/target/tb-web-ui.deb /tmp
+RUN set -ex && \
+    chmod a+x /usr/bin/docker-entrypoint.sh && \
+    mkdir /config && \
+    chown -R thingsboard:thingsboard /config && \
+    chown -R thingsboard:thingsboard /tmp
 
-RUN chmod a+x /usr/bin/docker-entrypoint.sh
+COPY --from=build /src/msa/web-ui/target/tb-web-ui.deb /tmp/setup.deb
 
-RUN yes | dpkg -i /tmp/tb-web-ui.deb
-
-RUN rm /tmp/tb-web-ui.deb
-
-RUN systemctl --no-reload disable --now tb-web-ui.service > /dev/null 2>&1 || :
-
-RUN chown -R thingsboard:thingsboard /tmp
-
-RUN chown -R thingsboard:thingsboard /config
-
-RUN chmod 555 /usr/share/tb-web-ui/bin/tb-web-ui
+RUN set -ex && \
+    yes | dpkg -i /tmp/setup.deb && \
+    rm /tmp/setup.deb && \
+    systemctl --no-reload disable --now tb-web-ui.service > /dev/null 2>&1 || : && \
+    chmod 555 /usr/share/tb-web-ui/bin/tb-web-ui
 
 USER thingsboard
 

@@ -3,8 +3,6 @@ FROM maven:3-openjdk-8
 ARG THINGSBOARD_GIT_REPO
 ARG THINGSBOARD_GIT_BRANCH
 
-LABEL maintainer="mehyaa@gmail.com"
-
 RUN set -ex && \
     git clone --single-branch --branch $THINGSBOARD_GIT_BRANCH --progress $THINGSBOARD_GIT_REPO /src && \
     cd /src && \
