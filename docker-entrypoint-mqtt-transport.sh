@@ -1,57 +1,35 @@
 #!/bin/bash
 
-APP_NAME="ThingsBoard MQTT Transport Microservice"
+appName="ThingsBoard MQTT Transport Microservice"
 
-APP_SHORT_NAME="tb-mqtt-transport"
+appCode="tb-mqtt-transport"
 
-APP_DIRECTORY="/usr/share/$APP_SHORT_NAME"
+appMainClass="org.thingsboard.server.mqtt.ThingsboardMqttTransportApplication"
 
-APP_BIN_DIRECTORY="/usr/share/$APP_SHORT_NAME/bin"
+appDir="/usr/share/$appCode"
 
-APP_CONFIG_DIRECTORY="/usr/share/$APP_SHORT_NAME/conf"
+appBinDir="$appDir/bin"
 
-APP_MAIN_CLASS="org.thingsboard.server.mqtt.ThingsboardMqttTransportApplication"
+appConfigDir="$appDir/conf"
 
-if [[ -z "$CONFIG_DIRECTORY" ]]; then
-    CONFIG_DIRECTORY="/config"
-fi
+jarFilePath="$appBinDir/$appCode.jar"
 
-if [ ! -d "$CONFIG_DIRECTORY" ]; then
-    mkdir -p "$CONFIG_DIRECTORY"
-fi
+envConfigFilePath="$appConfigDir/$appCode.conf"
 
-jarFilePath="$APP_BIN_DIRECTORY/$APP_SHORT_NAME.jar"
+propConfigFilePath="$appConfigDir/$appCode.yml"
 
-envConfigFilePath="$CONFIG_DIRECTORY/$APP_SHORT_NAME.conf"
-
-propConfigFilePath="$CONFIG_DIRECTORY/$APP_SHORT_NAME.yml"
-
-logConfigFilePath="$CONFIG_DIRECTORY/logback.xml"
-
-if [ ! -f "$envConfigFilePath" ]; then
-    cp "$APP_CONFIG_DIRECTORY/$APP_SHORT_NAME.conf" "$envConfigFilePath"
-fi
-
-if [ ! -f "$propConfigFilePath" ]; then
-    cp "$APP_CONFIG_DIRECTORY/$APP_SHORT_NAME.yml" "$propConfigFilePath"
-fi
-
-if [ ! -f "$logConfigFilePath" ]; then
-    cp "$APP_CONFIG_DIRECTORY/logback.yml" "$logConfigFilePath"
-fi
+logConfigFilePath="$appConfigDir/logback.xml"
 
 source "$envConfigFilePath"
 
-export LOADER_PATH="$CONFIG_DIRECTORY,$LOADER_PATH"
+echo "Starting '$appName' ..."
 
-echo "Starting '$APP_NAME' ..."
-
-cd "$APP_BIN_DIRECTORY"
+cd "$appBinDir"
 
 exec java -cp \
     "$jarFilePath" \
     $JAVA_OPTS \
-    -Dloader.main=$APP_MAIN_CLASS \
+    -Dloader.main=$appMainClass \
     -Dspring.jpa.hibernate.ddl-auto=none \
     -Dlogging.config="$logConfigFilePath" \
     org.springframework.boot.loader.PropertiesLauncher

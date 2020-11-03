@@ -1,23 +1,23 @@
 #!/bin/bash
 
-APP_NAME="ThingsBoard Web UI Microservice"
+appName="ThingsBoard Web UI Microservice"
 
-APP_SHORT_NAME="tb-web-ui"
+appCode="tb-web-ui"
 
-APP_DIRECTORY="/usr/share/$APP_SHORT_NAME"
+appDir="/usr/share/$appCode"
 
-APP_BIN_DIRECTORY="/usr/share/$APP_SHORT_NAME/bin"
+appBinDir="$appDir/bin"
 
-APP_CONFIG_DIRECTORY="/usr/share/$APP_SHORT_NAME/conf"
+appConfigDir="$appDir/conf"
 
-commandFilePath="$APP_BIN_DIRECTORY/$APP_SHORT_NAME"
+commandFilePath="$appBinDir/$appCode"
 
-envConfigFilePath="$APP_CONFIG_DIRECTORY/$APP_SHORT_NAME.conf"
+envConfigFilePath="$appConfigDir/$appCode.conf"
 
 source "$envConfigFilePath"
 
-echo "Starting '$APP_NAME' ..."
+echo "Starting '$appName' ..."
 
-cd "$APP_BIN_DIRECTORY"
+cd "$appBinDir"
 
 exec /bin/sh -c "$commandFilePath"
