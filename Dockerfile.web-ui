@@ -13,8 +13,6 @@ COPY docker-entrypoint-node.sh /usr/bin/docker-entrypoint.sh
 
 RUN set -ex && \
     chmod a+x /usr/bin/docker-entrypoint.sh && \
-    mkdir /config && \
-    chown -R thingsboard:thingsboard /config && \
     chown -R thingsboard:thingsboard /tmp
 
 COPY --from=build /src/msa/web-ui/target/tb-web-ui.deb /tmp/setup.deb
