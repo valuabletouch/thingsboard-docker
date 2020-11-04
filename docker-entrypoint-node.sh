@@ -46,6 +46,16 @@ if [ "$STARTUP_MODE" == "install" ]; then
         -Dinstall.load_demo=$loadDemoData \
         -Dinstall.upgrade=false \
         -Dlogging.config="$logConfigFilePath" \
+        org.springframework.boot.loader.PropertiesLauncher && \
+    \
+    echo "Starting '$appName' ..." && \
+    \
+    exec java -cp \
+        "$jarFilePath" \
+        $JAVA_OPTS \
+        -Dloader.main=$appMainClass \
+        -Dspring.jpa.hibernate.ddl-auto=none \
+        -Dlogging.config="$logConfigFilePath" \
         org.springframework.boot.loader.PropertiesLauncher
 
 elif [ "$STARTUP_MODE" == "upgrade" ]; then
@@ -66,6 +76,16 @@ elif [ "$STARTUP_MODE" == "upgrade" ]; then
         -Dspring.jpa.hibernate.ddl-auto=none \
         -Dinstall.upgrade=true \
         -Dinstall.upgrade.from_version="$fromVersion" \
+        -Dlogging.config="$logConfigFilePath" \
+        org.springframework.boot.loader.PropertiesLauncher && \
+    \
+    echo "Starting '$appName' ..." && \
+    \
+    exec java -cp \
+        "$jarFilePath" \
+        $JAVA_OPTS \
+        -Dloader.main=$appMainClass \
+        -Dspring.jpa.hibernate.ddl-auto=none \
         -Dlogging.config="$logConfigFilePath" \
         org.springframework.boot.loader.PropertiesLauncher
 
