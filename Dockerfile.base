@@ -12,7 +12,7 @@ RUN addgroup \
         --disabled-login \
         --disabled-password \
         --no-create-home \
-        -gecos "ThingsBoard Application" \
+        -gecos "V-Sensor Application" \
         thingsboard
 
 RUN set -ex && \
