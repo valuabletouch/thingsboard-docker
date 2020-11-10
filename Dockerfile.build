@@ -10,4 +10,8 @@ RUN set -ex && \
         --errors \
         --batch-mode \
         --no-transfer-progress \
-        --define dockerfile.skip=true
+        --define skip.license.check=true \
+        --define skipTests=true \
+        --define blackBoxTests.skip=true \
+        --define dockerfile.skip=true \
+        --projects '!org.thingsboard.msa:black-box-tests,!org.thingsboard.msa:tb'
