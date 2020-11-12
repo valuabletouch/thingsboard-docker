@@ -13,6 +13,7 @@ env:
   IMAGE_VERSION: build-${{ github.run_number }}
   THINGSBOARD_GIT_REPO: https://github.com/valuabletouch/thingsboard.git
   THINGSBOARD_GIT_BRANCH: master
+  THINGSBOARD_VERSION: "3.1.1"
 
 jobs:
   build:
@@ -46,6 +47,7 @@ jobs:
             --tag $IMAGE_REGISTRY/$IMAGE_REPOSITORY/node:$IMAGE_VERSION \
             --build-arg IMAGE_REPOSITORY=$IMAGE_REGISTRY/$IMAGE_REPOSITORY \
             --build-arg IMAGE_VERSION=$IMAGE_VERSION \
+            --build-arg THINGSBOARD_VERSION=$THINGSBOARD_VERSION \
             .
 
     - name: Build 'ThingsBoard COAP Transport Microservice' Docker Image
@@ -56,6 +58,7 @@ jobs:
             --tag $IMAGE_REGISTRY/$IMAGE_REPOSITORY/coap-transport:$IMAGE_VERSION \
             --build-arg IMAGE_REPOSITORY=$IMAGE_REGISTRY/$IMAGE_REPOSITORY \
             --build-arg IMAGE_VERSION=$IMAGE_VERSION \
+            --build-arg THINGSBOARD_VERSION=$THINGSBOARD_VERSION \
             .
 
     - name: Build 'ThingsBoard HTTP Transport Microservice' Docker Image
@@ -66,6 +69,7 @@ jobs:
             --tag $IMAGE_REGISTRY/$IMAGE_REPOSITORY/http-transport:$IMAGE_VERSION \
             --build-arg IMAGE_REPOSITORY=$IMAGE_REGISTRY/$IMAGE_REPOSITORY \
             --build-arg IMAGE_VERSION=$IMAGE_VERSION \
+            --build-arg THINGSBOARD_VERSION=$THINGSBOARD_VERSION \
             .
 
     - name: Build 'ThingsBoard MQTT Transport Microservice' Docker Image
@@ -76,6 +80,7 @@ jobs:
             --tag $IMAGE_REGISTRY/$IMAGE_REPOSITORY/mqtt-transport:$IMAGE_VERSION \
             --build-arg IMAGE_REPOSITORY=$IMAGE_REGISTRY/$IMAGE_REPOSITORY \
             --build-arg IMAGE_VERSION=$IMAGE_VERSION \
+            --build-arg THINGSBOARD_VERSION=$THINGSBOARD_VERSION \
             .
 
     - name: Build 'ThingsBoard JavaScript Executor Microservice' Docker Image
@@ -86,6 +91,7 @@ jobs:
             --tag $IMAGE_REGISTRY/$IMAGE_REPOSITORY/js-executor:$IMAGE_VERSION \
             --build-arg IMAGE_REPOSITORY=$IMAGE_REGISTRY/$IMAGE_REPOSITORY \
             --build-arg IMAGE_VERSION=$IMAGE_VERSION \
+            --build-arg THINGSBOARD_VERSION=$THINGSBOARD_VERSION \
             .
 
     - name: Build 'ThingsBoard Web UI Microservice' Docker Image
@@ -96,6 +102,7 @@ jobs:
             --tag $IMAGE_REGISTRY/$IMAGE_REPOSITORY/web-ui:$IMAGE_VERSION \
             --build-arg IMAGE_REPOSITORY=$IMAGE_REGISTRY/$IMAGE_REPOSITORY \
             --build-arg IMAGE_VERSION=$IMAGE_VERSION \
+            --build-arg THINGSBOARD_VERSION=$THINGSBOARD_VERSION \
             .
 
     - name: Login to Docker Registry

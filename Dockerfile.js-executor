@@ -7,13 +7,14 @@ ARG IMAGE_REPOSITORY
 
 FROM $IMAGE_REPOSITORY/base
 
+ARG THINGSBOARD_VERSION
+
 LABEL maintainer="yasin.akar@vtc.com.tr"
 
-COPY docker-entrypoint-js-executor.sh /usr/bin/docker-entrypoint.sh
-
-RUN set -ex && \
-    chmod a+x /usr/bin/docker-entrypoint.sh && \
-    chown -R thingsboard:thingsboard /tmp
+ENV TB_VERSION=${THINGSBOARD_VERSION}
+ENV DOCKER_MODE=true
+ENV NODE_ENV=production
+ENV NODE_CONFIG_DIR=/app/conf
 
 COPY --from=build /usr/share/tb-js-executor /app
 
@@ -21,6 +22,8 @@ COPY logback.xml /app/conf/logback.xml
 
 USER thingsboard
 
-ENTRYPOINT ["docker-entrypoint.sh"]
+WORKDIR /app/bin
+
+ENTRYPOINT ["/app/bin/tb-js-executor"]
 
 CMD []
