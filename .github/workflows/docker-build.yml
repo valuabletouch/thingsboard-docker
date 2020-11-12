@@ -39,6 +39,15 @@ jobs:
             --build-arg THINGSBOARD_GIT_BRANCH=$THINGSBOARD_GIT_BRANCH \
             .
 
+    - name: Build 'ThingsBoard Setup Intermadiate' Docker Image
+      run: |
+        docker build \
+            --file Dockerfile.build \
+            --tag $IMAGE_REGISTRY/$IMAGE_REPOSITORY/setup:$IMAGE_VERSION \
+            --build-arg IMAGE_REPOSITORY=$IMAGE_REGISTRY/$IMAGE_REPOSITORY \
+            --build-arg IMAGE_VERSION=$IMAGE_VERSION \
+            .
+
     - name: Build 'ThingsBoard Node Microservice' Docker Image
       run: |
         docker build \

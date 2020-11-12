@@ -1,0 +1,40 @@
+ARG IMAGE_REPOSITORY
+ARG IMAGE_VERSION
+
+FROM $IMAGE_REPOSITORY/build:$IMAGE_VERSION AS build
+
+ARG IMAGE_REPOSITORY
+
+FROM $IMAGE_REPOSITORY/base
+
+COPY --from=build /src/msa/tb-node/target/thingsboard.deb /setup/thingsboard.deb
+
+COPY --from=build /src/msa/transport/coap/target/tb-coap-transport.deb /setup/tb-coap-transport.deb
+
+COPY --from=build /src/msa/transport/http/target/tb-http-transport.deb /setup/tb-http-transport.deb
+
+COPY --from=build /src/msa/transport/mqtt/target/tb-mqtt-transport.deb /setup/tb-mqtt-transport.deb
+
+COPY --from=build /src/msa/js-executor/target/tb-js-executor.deb /setup/tb-js-executor.deb
+
+COPY --from=build /src/msa/web-ui/target/tb-web-ui.deb /setup/tb-web-ui.deb
+
+RUN set -ex && \
+    yes | dpkg -i /setup/thingsboard.deb && \
+    yes | dpkg -i /setup/tb-coap-transport.deb && \
+    yes | dpkg -i /setup/tb-http-transport.deb && \
+    yes | dpkg -i /setup/tb-mqtt-transport.deb && \
+    yes | dpkg -i /setup/tb-js-executor.deb && \
+    yes | dpkg -i /setup/tb-web-ui.deb && \
+    systemctl --no-reload disable --now thingsboard.service > /dev/null 2>&1 || : && \
+    systemctl --no-reload disable --now tb-coap-transport.service > /dev/null 2>&1 || : && \
+    systemctl --no-reload disable --now tb-http-transport.service > /dev/null 2>&1 || : && \
+    systemctl --no-reload disable --now tb-mqtt-transport.service > /dev/null 2>&1 || : && \
+    systemctl --no-reload disable --now tb-js-executor.service > /dev/null 2>&1 || : && \
+    systemctl --no-reload disable --now tb-web-ui.service > /dev/null 2>&1 || : && \
+    chmod 555 /usr/share/thingsboard/bin/thingsboard.jar && \
+    chmod 555 /usr/share/tb-coap-transport/bin/tb-coap-transport.jar && \
+    chmod 555 /usr/share/tb-http-transport/bin/tb-http-transport.jar && \
+    chmod 555 /usr/share/tb-mqtt-transport/bin/tb-mqtt-transport.jar && \
+    chmod 555 /usr/share/tb-js-executor/bin/tb-js-executor && \
+    chmod 555 /usr/share/tb-web-ui/bin/tb-web-ui
