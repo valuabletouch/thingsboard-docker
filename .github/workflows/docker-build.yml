@@ -42,7 +42,7 @@ jobs:
     - name: Build 'ThingsBoard Setup Intermadiate' Docker Image
       run: |
         docker build \
-            --file Dockerfile.build \
+            --file Dockerfile.setup \
             --tag $IMAGE_REGISTRY/$IMAGE_REPOSITORY/setup:$IMAGE_VERSION \
             --build-arg IMAGE_REPOSITORY=$IMAGE_REGISTRY/$IMAGE_REPOSITORY \
             --build-arg IMAGE_VERSION=$IMAGE_VERSION \
