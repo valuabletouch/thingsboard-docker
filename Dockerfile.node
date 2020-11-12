@@ -15,13 +15,9 @@ RUN set -ex && \
     chmod a+x /usr/bin/docker-entrypoint.sh && \
     chown -R thingsboard:thingsboard /tmp
 
-COPY --from=build /src/msa/tb-node/target/thingsboard.deb /tmp/setup.deb
+COPY --from=build /usr/share/thingsboard /app
 
-RUN set -ex && \
-    yes | dpkg -i /tmp/setup.deb && \
-    rm /tmp/setup.deb && \
-    systemctl --no-reload disable --now thingsboard.service > /dev/null 2>&1 || : && \
-    chmod 555 /usr/share/thingsboard/bin/thingsboard.jar
+COPY logback.xml /app/conf/logback.xml
 
 USER thingsboard
 

@@ -8,25 +8,17 @@ appMainClass="org.thingsboard.server.ThingsboardServerApplication"
 
 installMainClaass="org.thingsboard.server.ThingsboardInstallApplication"
 
-appDir="/usr/share/$appCode"
+jarFilePath="/app/bin/$appCode.jar"
 
-appBinDir="$appDir/bin"
+envConfigFilePath="/app/conf/$appCode.conf"
 
-appConfigDir="$appDir/conf"
+propConfigFilePath="/app/conf/$appCode.yml"
 
-jarFilePath="$appBinDir/$appCode.jar"
-
-envConfigFilePath="$appConfigDir/$appCode.conf"
-
-propConfigFilePath="$appConfigDir/$appCode.yml"
-
-logConfigFilePath="$appConfigDir/logback.xml"
+logConfigFilePath="/app/conf/logback.xml"
 
 source "$envConfigFilePath"
 
-ln -sf /proc/self/fd/1 "/var/log/$appCode/$appCode.log"
-
-cd "$appBinDir"
+cd /app/bin
 
 if [ "$STARTUP_MODE" == "install" ]; then
 

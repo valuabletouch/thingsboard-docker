@@ -15,13 +15,9 @@ RUN set -ex && \
     chmod a+x /usr/bin/docker-entrypoint.sh && \
     chown -R thingsboard:thingsboard /tmp
 
-COPY --from=build /src/msa/web-ui/target/tb-web-ui.deb /tmp/setup.deb
+COPY --from=build /usr/share/tb-web-ui /app
 
-RUN set -ex && \
-    yes | dpkg -i /tmp/setup.deb && \
-    rm /tmp/setup.deb && \
-    systemctl --no-reload disable --now tb-web-ui.service > /dev/null 2>&1 || : && \
-    chmod 555 /usr/share/tb-web-ui/bin/tb-web-ui
+COPY logback.xml /app/conf/logback.xml
 
 USER thingsboard
 

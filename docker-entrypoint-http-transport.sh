@@ -6,27 +6,19 @@ appCode="tb-http-transport"
 
 appMainClass="org.thingsboard.server.http.ThingsboardHttpTransportApplication"
 
-appDir="/usr/share/$appCode"
+jarFilePath="/app/bin/$appCode.jar"
 
-appBinDir="$appDir/bin"
+envConfigFilePath="/app/conf/$appCode.conf"
 
-appConfigDir="$appDir/conf"
+propConfigFilePath="/app/conf/$appCode.yml"
 
-jarFilePath="$appBinDir/$appCode.jar"
-
-envConfigFilePath="$appConfigDir/$appCode.conf"
-
-propConfigFilePath="$appConfigDir/$appCode.yml"
-
-logConfigFilePath="$appConfigDir/logback.xml"
+logConfigFilePath="/app/conf/logback.xml"
 
 source "$envConfigFilePath"
 
-ln -sf /proc/self/fd/1 "/var/log/$appCode/$appCode.log"
+cd /app/bin
 
 echo "Starting '$appName' ..."
-
-cd "$appBinDir"
 
 exec java -cp \
     "$jarFilePath" \

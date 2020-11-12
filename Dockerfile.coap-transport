@@ -15,13 +15,9 @@ RUN set -ex && \
     chmod a+x /usr/bin/docker-entrypoint.sh && \
     chown -R thingsboard:thingsboard /tmp
 
-COPY --from=build /src/msa/transport/coap/target/tb-coap-transport.deb /tmp/setup.deb
+COPY --from=build /usr/share/tb-coap-transport /app
 
-RUN set -ex && \
-    yes | dpkg -i /tmp/setup.deb && \
-    rm /tmp/setup.deb && \
-    systemctl --no-reload disable --now tb-coap-transport.service > /dev/null 2>&1 || : && \
-    chmod 555 /usr/share/tb-coap-transport/bin/tb-coap-transport.jar
+COPY logback.xml /app/conf/logback.xml
 
 USER thingsboard
 

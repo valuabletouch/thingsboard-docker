@@ -15,3 +15,33 @@ RUN set -ex && \
         --define blackBoxTests.skip=true \
         --define dockerfile.skip=true \
         --projects '!org.thingsboard.msa:black-box-tests,!org.thingsboard.msa:tb'
+
+RUN set -ex && \
+    yes | dpkg -i /src/msa/tb-node/target/thingsboard.deb && \
+    systemctl --no-reload disable --now thingsboard.service > /dev/null 2>&1 || : && \
+    chmod 555 /usr/share/thingsboard/bin/thingsboard.jar
+
+RUN set -ex && \
+    yes | dpkg -i /src/msa/transport/coap/target/tb-coap-transport.deb && \
+    systemctl --no-reload disable --now tb-coap-transport.service > /dev/null 2>&1 || : && \
+    chmod 555 /usr/share/tb-coap-transport/bin/tb-coap-transport.jar
+
+RUN set -ex && \
+    yes | dpkg -i /src/msa/transport/http/target/tb-http-transport.deb && \
+    systemctl --no-reload disable --now tb-http-transport.service > /dev/null 2>&1 || : && \
+    chmod 555 /usr/share/tb-http-transport/bin/tb-http-transport.jar
+
+RUN set -ex && \
+    yes | dpkg -i /src/msa/transport/mqtt/target/tb-mqtt-transport.deb && \
+    systemctl --no-reload disable --now tb-mqtt-transport.service > /dev/null 2>&1 || : && \
+    chmod 555 /usr/share/tb-mqtt-transport/bin/tb-mqtt-transport.jar
+
+RUN set -ex && \
+    yes | dpkg -i /src/msa/js-executor/target/tb-js-executor.deb && \
+    systemctl --no-reload disable --now tb-js-executor.service > /dev/null 2>&1 || : && \
+    chmod 555 /usr/share/tb-js-executor/bin/tb-js-executor
+
+RUN set -ex && \
+    yes | dpkg -i /src/msa/web-ui/target/tb-web-ui.deb && \
+    systemctl --no-reload disable --now tb-web-ui.service > /dev/null 2>&1 || : && \
+    chmod 555 /usr/share/tb-web-ui/bin/tb-web-ui
