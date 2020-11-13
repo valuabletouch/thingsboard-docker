@@ -8,13 +8,7 @@ appMainClass="org.thingsboard.server.mqtt.ThingsboardMqttTransportApplication"
 
 jarFilePath="/app/bin/$appCode.jar"
 
-envConfigFilePath="/app/conf/$appCode.conf"
-
-propConfigFilePath="/app/conf/$appCode.yml"
-
-logConfigFilePath="/app/conf/logback.xml"
-
-source "$envConfigFilePath"
+logbackFilePath="/app/conf/logback.xml"
 
 cd /app/bin
 
@@ -25,5 +19,5 @@ exec java -cp \
     $JAVA_OPTS \
     -Dloader.main=$appMainClass \
     -Dspring.jpa.hibernate.ddl-auto=none \
-    -Dlogging.config="$logConfigFilePath" \
+    -Dlogging.config="$logbackFilePath" \
     org.springframework.boot.loader.PropertiesLauncher

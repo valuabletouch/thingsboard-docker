@@ -15,10 +15,11 @@ ENV TB_VERSION=${THINGSBOARD_VERSION}
 ENV DOCKER_MODE=true
 ENV NODE_ENV=production
 ENV NODE_CONFIG_DIR=/app/conf
+ENV LOG_FOLDER=/app/log
 
 RUN set -ex && \
-    mkdir -p /var/log/tb-js-executor && \
-    chown -R thingsboard:thingsboard /var/log/tb-js-executor && \
+    mkdir -p /app/log && \
+    chown -R thingsboard:thingsboard /app/log && \
     chown -R thingsboard:thingsboard /tmp
 
 COPY --from=setup /usr/share/tb-js-executor /app

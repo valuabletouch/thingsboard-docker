@@ -10,13 +10,7 @@ installMainClaass="org.thingsboard.server.ThingsboardInstallApplication"
 
 jarFilePath="/app/bin/$appCode.jar"
 
-envConfigFilePath="/app/conf/$appCode.conf"
-
-propConfigFilePath="/app/conf/$appCode.yml"
-
-logConfigFilePath="/app/conf/logback.xml"
-
-source "$envConfigFilePath"
+logbackFilePath="/app/conf/logback.xml"
 
 cd /app/bin
 
@@ -37,7 +31,7 @@ if [ "$STARTUP_MODE" == "install" ]; then
         -Dspring.jpa.hibernate.ddl-auto=none \
         -Dinstall.load_demo=$loadDemoData \
         -Dinstall.upgrade=false \
-        -Dlogging.config="$logConfigFilePath" \
+        -Dlogging.config="$logbackFilePath" \
         org.springframework.boot.loader.PropertiesLauncher 2>&1 || :
 
 elif [ "$STARTUP_MODE" == "upgrade" ]; then
@@ -58,7 +52,7 @@ elif [ "$STARTUP_MODE" == "upgrade" ]; then
         -Dspring.jpa.hibernate.ddl-auto=none \
         -Dinstall.upgrade=true \
         -Dinstall.upgrade.from_version="$fromVersion" \
-        -Dlogging.config="$logConfigFilePath" \
+        -Dlogging.config="$logbackFilePath" \
         org.springframework.boot.loader.PropertiesLauncher 2>&1 || :
 
 fi
@@ -70,5 +64,5 @@ exec java -cp \
     $JAVA_OPTS \
     -Dloader.main=$appMainClass \
     -Dspring.jpa.hibernate.ddl-auto=none \
-    -Dlogging.config="$logConfigFilePath" \
+    -Dlogging.config="$logbackFilePath" \
     org.springframework.boot.loader.PropertiesLauncher
