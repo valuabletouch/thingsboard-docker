@@ -16,6 +16,11 @@ ENV DOCKER_MODE=true
 ENV NODE_ENV=production
 ENV NODE_CONFIG_DIR=/app/conf
 
+RUN set -ex && \
+    mkdir -p /var/log/tb-js-executor && \
+    chown -R thingsboard:thingsboard /var/log/tb-js-executor && \
+    chown -R thingsboard:thingsboard /tmp
+
 COPY --from=setup /usr/share/tb-js-executor /app
 
 COPY logback.xml /app/conf/logback.xml

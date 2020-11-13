@@ -17,6 +17,11 @@ ENV NODE_ENV=production
 ENV NODE_CONFIG_DIR=/app/conf
 ENV WEB_FOLDER=/app/web
 
+RUN set -ex && \
+    mkdir -p /var/log/tb-web-ui && \
+    chown -R thingsboard:thingsboard /var/log/tb-web-ui && \
+    chown -R thingsboard:thingsboard /tmp
+
 COPY --from=setup /usr/share/tb-web-ui /app
 
 COPY logback.xml /app/conf/logback.xml

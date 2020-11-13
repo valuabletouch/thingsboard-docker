@@ -15,6 +15,8 @@ COPY docker-entrypoint-coap-transport.sh /usr/bin/docker-entrypoint.sh
 
 RUN set -ex && \
     chmod a+x /usr/bin/docker-entrypoint.sh && \
+    mkdir -p /var/log/tb-coap-transport && \
+    chown -R thingsboard:thingsboard /var/log/tb-coap-transport && \
     chown -R thingsboard:thingsboard /tmp
 
 COPY --from=setup /usr/share/tb-coap-transport /app
