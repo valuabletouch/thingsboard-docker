@@ -155,3 +155,7 @@ jobs:
 
     - name: Push 'ThingsBoard Web UI Microservice' Image to Docker Registry (build)
       run: docker push $IMAGE_REGISTRY/$IMAGE_REPOSITORY/web-ui:$IMAGE_VERSION
+
+    - name: Check disk space of build environment
+      if: always()
+      run: sudo df -h
