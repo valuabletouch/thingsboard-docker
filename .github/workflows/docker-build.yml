@@ -34,7 +34,7 @@ jobs:
 
     - name: Make some clean up to have additional disk space
       run: |
-        set -ex; \
+        set -x; \
         docker system prune --all --force; \
         sudo rm -rf /usr/local/share/boost; \
         sudo rm -rf "$AGENT_TOOLSDIRECTORY"; \
