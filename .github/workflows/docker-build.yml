@@ -59,11 +59,12 @@ jobs:
         sudo apt-get remove -y '^mongodb.*'; \
         sudo apt-get remove -y '^postgresql.*'; \
         sudo apt-get remove -y azure-cli google-cloud-sdk hhvm google-chrome-stable firefox powershell msbuild; \
-        sudo apt-get purge libmono* cli-common mono-runtime \
-        sudo apt-get remove -y mono-devel 
+        sudo apt-get purge libmono* cli-common mono-runtime; \
+        sudo apt-get remove -y mono-devel; \
         sudo apt-get autoremove -y; \
         sudo apt-get clean; \
-        sudo rm -rf /usr/share/dotnet/
+        sudo rm -rf /usr/share/dotnet/ || \
+        true
 
     - name: Check disk spaces after clean up
       run: sudo df -h
