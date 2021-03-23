@@ -40,14 +40,15 @@ jobs:
         sudo rm -rf "$AGENT_TOOLSDIRECTORY"; \
         sudo apt-get remove -y '^ghc-8.*'; \
         sudo apt-get remove -y '^llvm-.*'; \
-        sudo apt-get remove -y '^cpp.*'; \
-        sudo apt-get remove -y '^gcc.*'; \
-        sudo apt-get remove -y '^g\+\+.*'; \
-        sudo apt-get remove -y '^libclang.*'; \
-        sudo apt-get remove -y '^gfortran.*'; \
-        sudo apt-get remove -y '^dotnet.*'; \
-        sudo apt-get remove -y '^aspnet.*'; \
-        sudo apt-get remove -y '^netstandard.*'; \
+        sudo apt-get remove -y '^cpp-.*'; \
+        sudo apt-get remove -y '^gcc-.*'; \
+        sudo apt-get remove -y '^g++-.*'; \
+        sudo apt-get remove -y '^gccgo-.*'; \
+        sudo apt-get remove -y '^libclang-.*'; \
+        sudo apt-get remove -y '^gfortran-.*'; \
+        sudo apt-get remove -y '^dotnet-.*'; \
+        sudo apt-get remove -y '^aspnetcore-.*'; \
+        sudo apt-get remove -y '^netstandard-.*'; \
         sudo apt-get remove -y '^php.*'; \
         sudo apt-get remove -y 'jdk.*'; \
         sudo apt-get remove -y 'jre.*'; \
