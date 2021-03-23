@@ -26,6 +26,9 @@ jobs:
     - name: Check disk spaces before build
       run: sudo df -h
 
+    - name: Print Docker information
+      run: docker info
+
     - name: Checkout files
       uses: actions/checkout@v2
 
