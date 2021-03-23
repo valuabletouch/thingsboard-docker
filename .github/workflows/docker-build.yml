@@ -23,11 +23,32 @@ jobs:
     - name: Check current path
       run: pwd
 
-    - name: Check disk spaces before build
-      run: sudo df -h
-
     - name: Print Docker information
       run: docker info
+
+    - name: Check disk spaces before clean up
+      run: sudo df -h
+
+    - name: Listing 100 largest packages
+      run: dpkg-query -Wf '${Installed-Size}\t${Package}\n' | sort -n | tail -n 100
+
+    - name: Make some clean up to have additional disk space
+      run: |
+        set -ex; \
+        docker system prune --all --force; \
+        sudo rm -rf /usr/local/share/boost; \
+        sudo rm -rf "$AGENT_TOOLSDIRECTORY"; \
+        sudo apt-get remove -y '^ghc-8.*'; \
+        sudo apt-get remove -y '^dotnet-.*'; \
+        sudo apt-get remove -y '^llvm-.*'; \
+        sudo apt-get remove -y 'php.*'; \
+        sudo apt-get remove -y azure-cli google-cloud-sdk hhvm google-chrome-stable firefox powershell mono-devel; \
+        sudo apt-get autoremove -y; \
+        sudo apt-get clean; \
+        sudo rm -rf /usr/share/dotnet/
+
+    - name: Check disk spaces after clean up
+      run: sudo df -h
 
     - name: Checkout files
       uses: actions/checkout@v2
@@ -124,7 +145,11 @@ jobs:
             .
 
     - name: Login to Docker Registry
-      run: echo "${{ secrets.PUSH_PACKAGE_PAT }}" | docker login -u $GITHUB_ACTOR --password-stdin $IMAGE_REGISTRY
+      uses: docker/login-action@v1
+      with:
+        registry: $IMAGE_REGISTRY
+        username: ${{ github.repository_owner }}
+        password: ${{ secrets.PUSH_PACKAGE_PAT }}
 
     - name: Push 'ThingsBoard Base' Image to Docker Registry (latest)
       run: docker push $IMAGE_REGISTRY/$IMAGE_REPOSITORY/base:latest
