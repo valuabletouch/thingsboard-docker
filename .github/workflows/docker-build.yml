@@ -13,13 +13,19 @@ env:
   IMAGE_VERSION: build-${{ github.run_number }}
   THINGSBOARD_GIT_REPO: https://github.com/valuabletouch/thingsboard.git
   THINGSBOARD_GIT_BRANCH: master
-  THINGSBOARD_VERSION: "3.1.1"
+  THINGSBOARD_VERSION: "3.2.1"
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
+    - name: Check current path
+      run: pwd
+
+    - name: Check disk spaces before build
+      run: sudo df -h
+
     - name: Checkout files
       uses: actions/checkout@v2
 
@@ -156,6 +162,6 @@ jobs:
     - name: Push 'ThingsBoard Web UI Microservice' Image to Docker Registry (build)
       run: docker push $IMAGE_REGISTRY/$IMAGE_REPOSITORY/web-ui:$IMAGE_VERSION
 
-    - name: Check disk space of build environment
+    - name: Check disk spaces after build
       if: always()
       run: sudo df -h
