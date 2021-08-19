@@ -38,6 +38,7 @@ jobs:
         docker system prune --all --force; \
         sudo rm -rf /usr/local/share/boost; \
         sudo rm -rf "$AGENT_TOOLSDIRECTORY"; \
+        sudo apt-get remove --auto-remove -y azure-cli google-cloud-sdk hhvm google-chrome-stable firefox powershell msbuild; \
         sudo apt-get remove --auto-remove -y '^ghc-8.*'; \
         sudo apt-get remove --auto-remove -y '^llvm-.*'; \
         sudo apt-get remove --auto-remove -y '^g++-.*'; \
@@ -59,7 +60,6 @@ jobs:
         sudo apt-get remove --auto-remove -y '^mysql.*'; \
         sudo apt-get remove --auto-remove -y '^mongodb.*'; \
         sudo apt-get remove --auto-remove -y '^postgresql.*'; \
-        sudo apt-get remove --auto-remove -y azure-cli google-cloud-sdk hhvm google-chrome-stable firefox powershell msbuild; \
         sudo apt-get autoremove -y; \
         sudo apt-get clean; \
         sudo rm -rf /usr/share/dotnet/; \
