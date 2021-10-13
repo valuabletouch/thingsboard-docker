@@ -38,26 +38,31 @@ jobs:
         docker system prune --all --force; \
         sudo rm -rf /usr/local/share/boost; \
         sudo rm -rf "$AGENT_TOOLSDIRECTORY"; \
-        sudo apt-get remove --auto-remove -y azure-cli google-cloud-sdk hhvm google-chrome-stable firefox powershell msbuild; \
-        sudo apt-get remove --auto-remove -y '^liblldb-*'; \
-        sudo apt-get remove --auto-remove -y '^llvm-.*'; \
-        sudo apt-get remove --auto-remove -y '^g++-.*'; \
-        sudo apt-get remove --auto-remove -y '^gccgo-.*'; \
-        sudo apt-get remove --auto-remove -y '^libclang-.*'; \
-        sudo apt-get remove --auto-remove -y '^gfortran-.*'; \
-        sudo apt-get remove --auto-remove -y '^cpp-.*'; \
-        sudo apt-get remove --auto-remove -y '^(dotnet-.*)|(aspnetcore-.*)|(netstandard-.*)'; \
-        sudo apt-get remove --auto-remove -y '^(mono-.*)|(libmono.*)'; \
+        sudo apt-get remove --auto-remove -y 'azure.*'; \
+        sudo apt-get remove --auto-remove -y 'google.*'; \
+        sudo apt-get remove --auto-remove -y firefox; \
+        sudo apt-get remove --auto-remove -y libgl1-mesa-dri; \
+        sudo apt-get remove --auto-remove -y '^(adoptopenjdk.*)|(jdk.*)|(jre.*)'; \
+        sudo apt-get remove --auto-remove -y hhvm; \
+        sudo apt-get remove --auto-remove -y '^(dotnet.*)|(aspnetcore.*)|(netstandard.*)'; \
+        sudo apt-get remove --auto-remove -y '^(mono.*)|(libmono.*)|ubuntu-mono'; \
+        sudo apt-get remove --auto-remove -y msbuild nuget; \
+        sudo apt-get remove --auto-remove -y '^r-.*'; \
         sudo apt-get remove --auto-remove -y '^php.*'; \
-        sudo apt-get remove --auto-remove -y 'jdk.*'; \
-        sudo apt-get remove --auto-remove -y 'jre.*'; \
+        sudo apt-get remove --auto-remove -y '^(python.*)|(libpython.*)'; \
+        sudo apt-get remove --auto-remove -y '^(perl.*)|(libperl.*)'; \
         sudo apt-get remove --auto-remove -y '^(ruby.*)|(libruby.*)'; \
-        sudo apt-get remove --auto-remove -y '^python.*'; \
-        sudo apt-get remove --auto-remove -y '^nginx.*'; \
-        sudo apt-get remove --auto-remove -y '^mysql.*'; \
+        sudo apt-get remove --auto-remove -y powershell; \
         sudo apt-get remove --auto-remove -y '^mongodb.*'; \
+        sudo apt-get remove --auto-remove -y '^mysql.*'; \
         sudo apt-get remove --auto-remove -y '^postgresql.*'; \
-        sudo apt-get remove --auto-remove -y '^r-*'; \
+        sudo apt-get remove --auto-remove -y '^apache.*'; \
+        sudo apt-get remove --auto-remove -y '^nginx.*'; \
+        sudo apt-get remove --auto-remove -y '^(llvm.*)|(libllvm.*)'; \
+        sudo apt-get remove --auto-remove -y '^(gfortran.*)|(libgfortran.*)'; \
+        sudo apt-get remove --auto-remove -y '^(gcc.*)|(libgcc.*)'; \
+        sudo apt-get remove --auto-remove -y '^cpp.*'; \
+        sudo apt-get remove --auto-remove -y '^libclang.*'; \
         sudo apt-get autoremove -y; \
         sudo apt-get clean; \
         sudo rm -rf /usr/share/dotnet/; \
