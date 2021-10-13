@@ -29,8 +29,8 @@ jobs:
     - name: Check disk spaces before clean up
       run: sudo df -h
 
-    - name: List 100 largest packages
-      run: dpkg-query -Wf '${Installed-Size}\t${Package}\n' | sort -n | tail -n 100
+    - name: List 500 largest packages before clean up
+      run: dpkg-query -Wf '${Installed-Size}\t${Package}\n' | sort -n | tail -n 500
 
     - name: Make some clean up to have additional disk space
       run: |
@@ -39,31 +39,32 @@ jobs:
         sudo rm -rf /usr/local/share/boost; \
         sudo rm -rf "$AGENT_TOOLSDIRECTORY"; \
         sudo apt-get remove --auto-remove -y azure-cli google-cloud-sdk hhvm google-chrome-stable firefox powershell msbuild; \
-        sudo apt-get remove --auto-remove -y '^ghc-8.*'; \
+        sudo apt-get remove --auto-remove -y '^liblldb-*'; \
         sudo apt-get remove --auto-remove -y '^llvm-.*'; \
         sudo apt-get remove --auto-remove -y '^g++-.*'; \
         sudo apt-get remove --auto-remove -y '^gccgo-.*'; \
         sudo apt-get remove --auto-remove -y '^libclang-.*'; \
         sudo apt-get remove --auto-remove -y '^gfortran-.*'; \
         sudo apt-get remove --auto-remove -y '^cpp-.*'; \
-        sudo apt-get remove --auto-remove -y '^dotnet-.*'; \
-        sudo apt-get remove --auto-remove -y '^aspnetcore-.*'; \
-        sudo apt-get remove --auto-remove -y '^netstandard-.*'; \
-        sudo apt-get remove --auto-remove -y '^mono-.*'; \
-        sudo apt-get remove --auto-remove -y '^libmono.*'; \
+        sudo apt-get remove --auto-remove -y '^(dotnet-.*)|(aspnetcore-.*)|(netstandard-.*)'; \
+        sudo apt-get remove --auto-remove -y '^(mono-.*)|(libmono.*)'; \
         sudo apt-get remove --auto-remove -y '^php.*'; \
         sudo apt-get remove --auto-remove -y 'jdk.*'; \
         sudo apt-get remove --auto-remove -y 'jre.*'; \
-        sudo apt-get remove --auto-remove -y '^ruby.*'; \
+        sudo apt-get remove --auto-remove -y '^(ruby.*)|(libruby.*)'; \
         sudo apt-get remove --auto-remove -y '^python.*'; \
         sudo apt-get remove --auto-remove -y '^nginx.*'; \
         sudo apt-get remove --auto-remove -y '^mysql.*'; \
         sudo apt-get remove --auto-remove -y '^mongodb.*'; \
         sudo apt-get remove --auto-remove -y '^postgresql.*'; \
+        sudo apt-get remove --auto-remove -y '^r-*'; \
         sudo apt-get autoremove -y; \
         sudo apt-get clean; \
         sudo rm -rf /usr/share/dotnet/; \
         true
+
+    - name: List 500 largest packages after clean up
+      run: dpkg-query -Wf '${Installed-Size}\t${Package}\n' | sort -n | tail -n 500
 
     - name: Check disk spaces after clean up
       run: sudo df -h
