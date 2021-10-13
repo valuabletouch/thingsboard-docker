@@ -42,7 +42,7 @@ jobs:
         sudo rm -rf /usr/local/share/boost; \
         sudo rm -rf "$AGENT_TOOLSDIRECTORY"; \
         sudo apt-get remove --auto-remove -y \
-          libgl1-mesa-dri; \
+          libgl1-mesa-dri \
           msbuild \
           netstandard* \
           ubuntu-mono \
