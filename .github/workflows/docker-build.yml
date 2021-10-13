@@ -38,11 +38,8 @@ jobs:
     - name: Clean up build environment for additional disk space
       run: |
         set -x; \
-        docker system prune -af; \
         sudo rm -rf /usr/local/share/boost; \
-        sudo rm -rf "$AGENT_TOOLSDIRECTORY"; \
         sudo -EH apt-fast -qq -y purge libgl1-mesa-dri powershell; \
-        sudo -EH apt-get purge -y  '^r-.*'; \
         sudo -EH apt-fast -qq -y autoremove
 
     - name: List 100 largest packages after clean up
