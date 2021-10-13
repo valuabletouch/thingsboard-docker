@@ -43,7 +43,6 @@ jobs:
         sudo apt-get remove --auto-remove -y '^firefox.*'; \
         sudo apt-get remove --auto-remove -y libgl1-mesa-dri; \
         sudo apt-get remove --auto-remove -y '^(adoptopenjdk.*)|(jdk.*)|(jre.*)'; \
-        sudo apt-get remove --auto-remove -y '^hhvm.*'; \
         sudo apt-get remove --auto-remove -y '^(dotnet.*)|(aspnetcore.*)|(netstandard.*)'; \
         sudo apt-get remove --auto-remove -y '^(mono.*)|(libmono.*)|ubuntu-mono'; \
         sudo apt-get remove --auto-remove -y '^msbuild.*' ; \
@@ -61,7 +60,6 @@ jobs:
         sudo apt-get remove --auto-remove -y '^(gfortran.*)|(libgfortran.*)'; \
         sudo apt-get remove --auto-remove -y '^cpp.*'; \
         sudo apt-get remove --auto-remove -y '^libclang.*'; \
-        sudo apt-get remove --auto-remove -y '^(ruby.*)|(libruby.*)'; \
         sudo apt-get autoremove -y; \
         sudo apt-get clean; \
         sudo rm -rf /usr/share/dotnet/; \
