@@ -38,33 +38,33 @@ jobs:
         docker system prune --all --force; \
         sudo rm -rf /usr/local/share/boost; \
         sudo rm -rf "$AGENT_TOOLSDIRECTORY"; \
-        sudo apt purge --auto-remove -y 'azure.*'; \
-        sudo apt purge --auto-remove -y 'google.*'; \
-        sudo apt purge --auto-remove -y firefox; \
-        sudo apt purge --auto-remove -y libgl1-mesa-dri; \
-        sudo apt purge --auto-remove -y '^(adoptopenjdk.*)|(jdk.*)|(jre.*)'; \
-        sudo apt purge --auto-remove -y hhvm; \
-        sudo apt purge --auto-remove -y '^(dotnet.*)|(aspnetcore.*)|(netstandard.*)'; \
-        sudo apt purge --auto-remove -y '^(mono.*)|(libmono.*)|ubuntu-mono'; \
-        sudo apt purge --auto-remove -y msbuild nuget; \
-        sudo apt purge --auto-remove -y '^r-.*'; \
-        sudo apt purge --auto-remove -y '^php.*'; \
-        sudo apt purge --auto-remove -y '^(python.*)|(libpython.*)'; \
-        sudo apt purge --auto-remove -y powershell; \
-        sudo apt purge --auto-remove -y '^mongodb.*'; \
-        sudo apt purge --auto-remove -y '^mysql.*'; \
-        sudo apt purge --auto-remove -y '^postgresql.*'; \
-        sudo apt purge --auto-remove -y '^apache.*'; \
-        sudo apt purge --auto-remove -y '^nginx.*'; \
-        sudo apt purge --auto-remove -y '^(llvm.*)|(libllvm.*)'; \
-        sudo apt purge --auto-remove -y '^(gfortran.*)|(libgfortran.*)'; \
-        sudo apt purge --auto-remove -y '^gcc.*'; \
-        sudo apt purge --auto-remove -y '^cpp.*'; \
-        sudo apt purge --auto-remove -y '^libclang.*'; \
-        sudo apt purge --auto-remove -y '^(perl.*)|(libperl.*)'; \
-        sudo apt purge --auto-remove -y '^(ruby.*)|(libruby.*)'; \
-        sudo apt autoremove --purge -y; \
-        sudo apt clean; \
+        sudo apt-get purge --auto-remove -y 'azure.*'; \
+        sudo apt-get purge --auto-remove -y 'google.*'; \
+        sudo apt-get purge --auto-remove -y firefox; \
+        sudo apt-get purge --auto-remove -y libgl1-mesa-dri; \
+        sudo apt-get purge --auto-remove -y '^(adoptopenjdk.*)|(jdk.*)|(jre.*)'; \
+        sudo apt-get purge --auto-remove -y hhvm; \
+        sudo apt-get purge --auto-remove -y '^(dotnet.*)|(aspnetcore.*)|(netstandard.*)'; \
+        sudo apt-get purge --auto-remove -y '^(mono.*)|(libmono.*)|ubuntu-mono'; \
+        sudo apt-get purge --auto-remove -y msbuild nuget; \
+        sudo apt-get purge --auto-remove -y '^r-.*'; \
+        sudo apt-get purge --auto-remove -y '^php.*'; \
+        sudo apt-get purge --auto-remove -y '^(python.*)|(libpython.*)'; \
+        sudo apt-get purge --auto-remove -y powershell; \
+        sudo apt-get purge --auto-remove -y '^mongodb.*'; \
+        sudo apt-get purge --auto-remove -y '^mysql.*'; \
+        sudo apt-get purge --auto-remove -y '^postgresql.*'; \
+        sudo apt-get purge --auto-remove -y '^apache.*'; \
+        sudo apt-get purge --auto-remove -y '^nginx.*'; \
+        sudo apt-get purge --auto-remove -y '^(llvm.*)|(libllvm.*)'; \
+        sudo apt-get purge --auto-remove -y '^(gfortran.*)|(libgfortran.*)'; \
+        sudo apt-get purge --auto-remove -y '^gcc.*'; \
+        sudo apt-get purge --auto-remove -y '^cpp.*'; \
+        sudo apt-get purge --auto-remove -y '^libclang.*'; \
+        sudo apt-get purge --auto-remove -y '^(perl.*)|(libperl.*)'; \
+        sudo apt-get purge --auto-remove -y '^(ruby.*)|(libruby.*)'; \
+        sudo apt-get autoremove --purge -y; \
+        sudo apt-get clean; \
         sudo rm -rf /usr/share/dotnet/; \
         true
 
