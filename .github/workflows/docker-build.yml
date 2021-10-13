@@ -32,10 +32,8 @@ jobs:
     - name: List 500 largest packages before clean up
       run: dpkg-query -Wf '${Installed-Size}\t${Package}\n' | sort -n | tail -n 500
 
-    - name: Make some clean up to have additional disk space
-      uses: curoky/cleanup-disk-action@v2.0
-      with:
-        retain: ''
+    - name: Clean up build environment for additional disk space
+      uses: rokibhasansagar/slimhub_actions@main
 
     - name: List 500 largest packages after clean up
       run: dpkg-query -Wf '${Installed-Size}\t${Package}\n' | sort -n | tail -n 500
