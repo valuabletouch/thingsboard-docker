@@ -27,7 +27,7 @@ jobs:
       run: docker info
 
     - name: Check disk spaces before clean up
-      run: sudo df -hlT
+      run: sudo df -hlT /
 
     - name: List 100 largest packages before clean up
       run: dpkg-query -Wf '${Installed-Size}\t${Package}\n' | sort -nr | head -n 100
@@ -36,43 +36,25 @@ jobs:
       uses: rokibhasansagar/slimhub_actions@main
 
     - name: Clean up build environment for additional disk space
-      uses: curoky/cleanup-disk-action@v2.0
-      with:
-        retain: ''
-
-    - name: Clean up build environment for additional disk space
       run: |
         set -x; \
-        docker system prune --all --force; \
+        docker system prune -af; \
         sudo rm -rf /usr/local/share/boost; \
         sudo rm -rf "$AGENT_TOOLSDIRECTORY"; \
-        sudo apt-get remove --auto-remove -y 'azure.*'; \
-        sudo apt-get remove --auto-remove -y 'google.*'; \
-        sudo apt-get remove --auto-remove -y '^firefox.*'; \
-        sudo apt-get remove --auto-remove -y libgl1-mesa-dri; \
-        sudo apt-get remove --auto-remove -y '^(adoptopenjdk.*)|(jdk.*)|(jre.*)'; \
-        sudo apt-get remove --auto-remove -y '^(dotnet.*)|(aspnetcore.*)|(netstandard.*)'; \
-        sudo apt-get remove --auto-remove -y '^(mono.*)|(libmono.*)|ubuntu-mono'; \
-        sudo apt-get remove --auto-remove -y '^msbuild.*' ; \
-        sudo apt-get remove --auto-remove -y '^nuget.*'; \
-        sudo apt-get remove --auto-remove -y '^r-.*'; \
-        sudo apt-get remove --auto-remove -y '^php.*'; \
-        sudo apt-get remove --auto-remove -y '^powershell.*'; \
-        sudo apt-get remove --auto-remove -y '^mongodb.*'; \
-        sudo apt-get remove --auto-remove -y '^mysql.*'; \
-        sudo apt-get remove --auto-remove -y '^postgresql.*'; \
-        sudo apt-get remove --auto-remove -y '^apache.*'; \
-        sudo apt-get remove --auto-remove -y '^nginx.*'; \
-        sudo apt-get autoremove -y; \
-        sudo apt-get clean; \
-        sudo rm -rf /usr/share/dotnet/; \
-        true
+        sudo apt-get remove --auto-remove -y \
+          libgl1-mesa-dri; \
+          msbuild \
+          netstandard* \
+          ubuntu-mono \
+          powershell \
+          r-*; \
+        sudo apt-get clean
 
     - name: List 100 largest packages after clean up
       run: dpkg-query -Wf '${Installed-Size}\t${Package}\n' | sort -nr | head -n 100
 
     - name: Check disk spaces after clean up
-      run: sudo df -hlT
+      run: sudo df -hlT /
 
     - name: Checkout files
       uses: actions/checkout@v2
