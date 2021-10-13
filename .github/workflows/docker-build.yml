@@ -61,7 +61,6 @@ jobs:
         sudo apt-get remove --auto-remove -y '^(gfortran.*)|(libgfortran.*)'; \
         sudo apt-get remove --auto-remove -y '^cpp.*'; \
         sudo apt-get remove --auto-remove -y '^libclang.*'; \
-        sudo apt-get remove --auto-remove -y '^(perl.*)|(libperl.*)'; \
         sudo apt-get remove --auto-remove -y '^(ruby.*)|(libruby.*)'; \
         sudo apt-get autoremove -y; \
         sudo apt-get clean; \
