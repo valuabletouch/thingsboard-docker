@@ -33,37 +33,9 @@ jobs:
       run: dpkg-query -Wf '${Installed-Size}\t${Package}\n' | sort -n | tail -n 500
 
     - name: Make some clean up to have additional disk space
-      run: |
-        set -x; \
-        docker system prune --all --force; \
-        sudo rm -rf /usr/local/share/boost; \
-        sudo rm -rf "$AGENT_TOOLSDIRECTORY"; \
-        sudo apt-get remove --auto-remove -y 'azure.*'; \
-        sudo apt-get remove --auto-remove -y 'google.*'; \
-        sudo apt-get remove --auto-remove -y '^firefox.*'; \
-        sudo apt-get remove --auto-remove -y libgl1-mesa-dri; \
-        sudo apt-get remove --auto-remove -y '^(adoptopenjdk.*)|(jdk.*)|(jre.*)'; \
-        sudo apt-get remove --auto-remove -y '^(dotnet.*)|(aspnetcore.*)|(netstandard.*)'; \
-        sudo apt-get remove --auto-remove -y '^(mono.*)|(libmono.*)|ubuntu-mono'; \
-        sudo apt-get remove --auto-remove -y '^msbuild.*' ; \
-        sudo apt-get remove --auto-remove -y '^nuget.*'; \
-        sudo apt-get remove --auto-remove -y '^r-.*'; \
-        sudo apt-get remove --auto-remove -y '^php.*'; \
-        sudo apt-get remove --auto-remove -y '^(python.*)|(libpython.*)'; \
-        sudo apt-get remove --auto-remove -y '^powershell.*'; \
-        sudo apt-get remove --auto-remove -y '^mongodb.*'; \
-        sudo apt-get remove --auto-remove -y '^mysql.*'; \
-        sudo apt-get remove --auto-remove -y '^postgresql.*'; \
-        sudo apt-get remove --auto-remove -y '^apache.*'; \
-        sudo apt-get remove --auto-remove -y '^nginx.*'; \
-        sudo apt-get remove --auto-remove -y '^(llvm.*)|(libllvm.*)'; \
-        sudo apt-get remove --auto-remove -y '^(gfortran.*)|(libgfortran.*)'; \
-        sudo apt-get remove --auto-remove -y '^cpp.*'; \
-        sudo apt-get remove --auto-remove -y '^libclang.*'; \
-        sudo apt-get autoremove -y; \
-        sudo apt-get clean; \
-        sudo rm -rf /usr/share/dotnet/; \
-        true
+      uses: curoky/cleanup-disk-action@v2.0
+      with:
+        retain: ''
 
     - name: List 500 largest packages after clean up
       run: dpkg-query -Wf '${Installed-Size}\t${Package}\n' | sort -n | tail -n 500
