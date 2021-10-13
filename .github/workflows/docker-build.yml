@@ -42,7 +42,7 @@ jobs:
         sudo rm -rf /usr/local/share/boost; \
         sudo rm -rf "$AGENT_TOOLSDIRECTORY"; \
         sudo -EH apt-fast -qq -y purge libgl1-mesa-dri powershell; \
-        sudo -EH apt-fast -qq -y purge '^r-.*'; \
+        sudo -EH apt-get purge -y  '^r-.*'; \
         sudo -EH apt-fast -qq -y autoremove
 
     - name: List 100 largest packages after clean up
