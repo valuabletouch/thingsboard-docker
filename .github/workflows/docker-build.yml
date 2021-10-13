@@ -40,17 +40,18 @@ jobs:
         sudo rm -rf "$AGENT_TOOLSDIRECTORY"; \
         sudo apt-get purge --auto-remove -y 'azure.*'; \
         sudo apt-get purge --auto-remove -y 'google.*'; \
-        sudo apt-get purge --auto-remove -y firefox; \
+        sudo apt-get purge --auto-remove -y '^firefox.*'; \
         sudo apt-get purge --auto-remove -y libgl1-mesa-dri; \
         sudo apt-get purge --auto-remove -y '^(adoptopenjdk.*)|(jdk.*)|(jre.*)'; \
-        sudo apt-get purge --auto-remove -y hhvm; \
+        sudo apt-get purge --auto-remove -y '^hhvm.*'; \
         sudo apt-get purge --auto-remove -y '^(dotnet.*)|(aspnetcore.*)|(netstandard.*)'; \
         sudo apt-get purge --auto-remove -y '^(mono.*)|(libmono.*)|ubuntu-mono'; \
-        sudo apt-get purge --auto-remove -y msbuild nuget; \
+        sudo apt-get purge --auto-remove -y '^msbuild.*' ; \
+        sudo apt-get purge --auto-remove -y '^nuget.*'; \
         sudo apt-get purge --auto-remove -y '^r-.*'; \
         sudo apt-get purge --auto-remove -y '^php.*'; \
         sudo apt-get purge --auto-remove -y '^(python.*)|(libpython.*)'; \
-        sudo apt-get purge --auto-remove -y powershell; \
+        sudo apt-get purge --auto-remove -y '^powershell.*'; \
         sudo apt-get purge --auto-remove -y '^mongodb.*'; \
         sudo apt-get purge --auto-remove -y '^mysql.*'; \
         sudo apt-get purge --auto-remove -y '^postgresql.*'; \
