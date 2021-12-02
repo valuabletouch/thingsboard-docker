@@ -188,6 +188,15 @@ jobs:
     - name: Push 'ThingsBoard Web UI Microservice' Image to Docker Registry (build)
       run: docker push $IMAGE_REGISTRY/$IMAGE_REPOSITORY/web-ui:$IMAGE_VERSION
 
+    - name: Trigger Webhook
+      run: |
+        curl \
+          --location \
+          --request POST '${{ secrets.BUILD_WEBHOOK_URL }}' \
+          --header 'Authorization: ${{ secrets.BUILD_WEBHOOK_AUTHORIZATION }}' \
+          --header 'Content-Type: application/json' \
+          --data-raw '{"variables":{"ThingsBoard.ImageTag":{"isSecret":false,"value":"${{ env.IMAGE_VERSION }}"}}}'
+
     - name: Check disk spaces after build
       if: ${{ always() }}
       run: sudo df -h
