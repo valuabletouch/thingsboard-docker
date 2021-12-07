@@ -14,6 +14,14 @@ logbackFilePath="/app/conf/logback.xml"
 
 cd /app/bin
 
+if [ "$ENABLE_DEBUGGING" = "true" ] || [ "$ENABLE_DEBUGGING" = "1" ]; then
+    if [ -z "$DEBUGGER_PORT" ]; then
+        DEBUGGER_PORT=47358
+    fi
+
+    JAVA_OPTS="$JAVA_OPTS -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:$DEBUGGER_PORT"
+fi
+
 if [ "$STARTUP_MODE" == "install" ]; then
 
     if [ "$LOAD_DEMO_DATA" == "true" ]; then
