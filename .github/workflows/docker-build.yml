@@ -27,46 +27,26 @@ jobs:
       run: docker info
 
     - name: Check disk spaces before clean up
-      run: sudo df -h
+      run: sudo df -hlT /
 
-    - name: List 100 largest packages
-      run: dpkg-query -Wf '${Installed-Size}\t${Package}\n' | sort -n | tail -n 100
+    - name: List 100 largest packages before clean up
+      run: dpkg-query -Wf '${Installed-Size}\t${Package}\n' | sort -nr | head -n 100
 
-    - name: Make some clean up to have additional disk space
+    - name: Clean up build environment for additional disk space
+      uses: rokibhasansagar/slimhub_actions@main
+
+    - name: Clean up build environment for additional disk space
       run: |
         set -x; \
-        docker system prune --all --force; \
         sudo rm -rf /usr/local/share/boost; \
-        sudo rm -rf "$AGENT_TOOLSDIRECTORY"; \
-        sudo apt-get remove --auto-remove -y '^ghc-8.*'; \
-        sudo apt-get remove --auto-remove -y '^llvm-.*'; \
-        sudo apt-get remove --auto-remove -y '^g++-.*'; \
-        sudo apt-get remove --auto-remove -y '^gccgo-.*'; \
-        sudo apt-get remove --auto-remove -y '^libclang-.*'; \
-        sudo apt-get remove --auto-remove -y '^gfortran-.*'; \
-        sudo apt-get remove --auto-remove -y '^cpp-.*'; \
-        sudo apt-get remove --auto-remove -y '^dotnet-.*'; \
-        sudo apt-get remove --auto-remove -y '^aspnetcore-.*'; \
-        sudo apt-get remove --auto-remove -y '^netstandard-.*'; \
-        sudo apt-get remove --auto-remove -y '^mono-.*'; \
-        sudo apt-get remove --auto-remove -y '^libmono.*'; \
-        sudo apt-get remove --auto-remove -y '^php.*'; \
-        sudo apt-get remove --auto-remove -y 'jdk.*'; \
-        sudo apt-get remove --auto-remove -y 'jre.*'; \
-        sudo apt-get remove --auto-remove -y '^ruby.*'; \
-        sudo apt-get remove --auto-remove -y '^python.*'; \
-        sudo apt-get remove --auto-remove -y '^nginx.*'; \
-        sudo apt-get remove --auto-remove -y '^mysql.*'; \
-        sudo apt-get remove --auto-remove -y '^mongodb.*'; \
-        sudo apt-get remove --auto-remove -y '^postgresql.*'; \
-        sudo apt-get remove --auto-remove -y azure-cli google-cloud-sdk hhvm google-chrome-stable firefox powershell msbuild; \
-        sudo apt-get autoremove -y; \
-        sudo apt-get clean; \
-        sudo rm -rf /usr/share/dotnet/; \
-        true
+        sudo -EH apt-fast -qq -y purge libgl1-mesa-dri powershell; \
+        sudo -EH apt-fast -qq -y autoremove
+
+    - name: List 100 largest packages after clean up
+      run: dpkg-query -Wf '${Installed-Size}\t${Package}\n' | sort -nr | head -n 100
 
     - name: Check disk spaces after clean up
-      run: sudo df -h
+      run: sudo df -hlT /
 
     - name: Checkout files
       uses: actions/checkout@v2
@@ -207,6 +187,15 @@ jobs:
 
     - name: Push 'ThingsBoard Web UI Microservice' Image to Docker Registry (build)
       run: docker push $IMAGE_REGISTRY/$IMAGE_REPOSITORY/web-ui:$IMAGE_VERSION
+
+    - name: Trigger Webhook
+      run: |
+        curl \
+          --location \
+          --request POST '${{ secrets.BUILD_WEBHOOK_URL }}' \
+          --header 'Authorization: ${{ secrets.BUILD_WEBHOOK_AUTHORIZATION }}' \
+          --header 'Content-Type: application/json' \
+          --data-raw '{"variables":{"ThingsBoard.ImageTag":{"isSecret":false,"value":"${{ env.IMAGE_VERSION }}"}}}'
 
     - name: Check disk spaces after build
       if: ${{ always() }}
