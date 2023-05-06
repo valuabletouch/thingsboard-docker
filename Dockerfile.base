@@ -1,4 +1,4 @@
-FROM debian
+FROM openjdk:8-jre-alpine
 
 RUN addgroup \
         --system thingsboard \
@@ -14,8 +14,3 @@ RUN addgroup \
         --no-create-home \
         -gecos "V-Sensor Application" \
         thingsboard
-
-RUN set -ex && \
-    apt-get update && \
-    apt-get install -y --no-install-recommends openjdk-8-jre && \
-    rm -rf /var/lib/apt/lists/*
