@@ -2,15 +2,12 @@ FROM openjdk:8-jre-alpine
 
 RUN addgroup \
         --system thingsboard \
-        --gid=799 && \
+        --gid 799 && \
     adduser \
-        --quiet \
         --system \
-        --uid=799 \
+        --uid 799 \
         --ingroup thingsboard \
-        --quiet \
-        --disabled-login \
         --disabled-password \
         --no-create-home \
-        -gecos "V-Sensor Application" \
+        --gecos "V-Sensor Application" \
         thingsboard
