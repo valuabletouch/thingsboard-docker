@@ -34,6 +34,8 @@ jobs:
 
     - name: Clean up build environment for additional disk space
       uses: rokibhasansagar/slimhub_actions@main
+      with:
+          retain: "docker_buildkit"
 
     - name: Clean up build environment for additional disk space
       run: |
