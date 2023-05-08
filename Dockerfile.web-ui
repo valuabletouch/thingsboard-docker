@@ -23,7 +23,7 @@ RUN set -ex && \
     chown -R thingsboard:thingsboard /app/log && \
     chown -R thingsboard:thingsboard /tmp
 
-COPY --from=setup /usr/share/tb-web-ui /app
+COPY --from=setup /usr/share/thingsboard/web-ui /app/bin
 
 COPY logback.xml /app/conf/logback.xml
 

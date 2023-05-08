@@ -15,21 +15,22 @@ COPY --from=build /src/msa/js-executor/target/tb-js-executor.deb /setup/tb-js-ex
 COPY --from=build /src/msa/web-ui/target/tb-web-ui.deb /setup/tb-web-ui.deb
 
 RUN set -ex && \
-    yes | dpkg -i /setup/thingsboard.deb && \
-    yes | dpkg -i /setup/tb-coap-transport.deb && \
-    yes | dpkg -i /setup/tb-http-transport.deb && \
-    yes | dpkg -i /setup/tb-mqtt-transport.deb && \
-    yes | dpkg -i /setup/tb-js-executor.deb && \
-    yes | dpkg -i /setup/tb-web-ui.deb && \
-    systemctl --no-reload disable --now thingsboard.service || : && \
-    systemctl --no-reload disable --now tb-coap-transport.service || : && \
-    systemctl --no-reload disable --now tb-http-transport.service || : && \
-    systemctl --no-reload disable --now tb-mqtt-transport.service || : && \
-    systemctl --no-reload disable --now tb-js-executor.service || : && \
-    systemctl --no-reload disable --now tb-web-ui.service || : && \
-    chmod 555 /usr/share/thingsboard/bin/thingsboard.jar && \
-    chmod 555 /usr/share/tb-coap-transport/bin/tb-coap-transport.jar && \
-    chmod 555 /usr/share/tb-http-transport/bin/tb-http-transport.jar && \
-    chmod 555 /usr/share/tb-mqtt-transport/bin/tb-mqtt-transport.jar && \
-    chmod -R 555 /usr/share/tb-js-executor/bin/tb-js-executor && \
-    chmod -R 555 /usr/share/tb-web-ui/bin/tb-web-ui
+    mkdir -p /usr/share/thingsboard
+    dpkg -x /setup/thingsboard.deb /usr/share/thingsboard/core && \
+    dpkg -x /setup/tb-coap-transport.deb /usr/share/thingsboard/coap && \
+    dpkg -x /setup/tb-http-transport.deb /usr/share/thingsboard/http && \
+    dpkg -x /setup/tb-mqtt-transport.deb /usr/share/thingsboard/mqtt && \
+    dpkg -x /setup/tb-js-executor.deb /usr/share/thingsboard/js-executor && \
+    dpkg -x /setup/tb-web-ui.deb /usr/share/thingsboard/web-ui && \
+    ls -la /usr/share/thingsboard/core && \
+    ls -la /usr/share/thingsboard/coap && \
+    ls -la /usr/share/thingsboard/http && \
+    ls -la /usr/share/thingsboard/mqtt && \
+    ls -la /usr/share/thingsboard/js-executor && \
+    ls -la /usr/share/thingsboard/web-ui && \
+    chmod -R 555 /usr/share/thingsboard/core/thingsboard.jar && \
+    chmod -R 555 /usr/share/thingsboard/coap/tb-coap-transport.jar && \
+    chmod -R 555 /usr/share/thingsboard/http/tb-http-transport.jar && \
+    chmod -R 555 /usr/share/thingsboard/mqtt/tb-mqtt-transport.jar && \
+    chmod -R 555 /usr/share/thingsboard/js-executor && \
+    chmod -R 555 /usr/share/thingsboard/web-ui

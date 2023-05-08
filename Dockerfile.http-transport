@@ -11,7 +11,7 @@ ARG THINGSBOARD_VERSION
 
 LABEL maintainer="yasin.akar@vtc.com.tr"
 
-COPY --from=setup /usr/share/tb-http-transport /app
+COPY --from=setup /usr/share/thingsboard/http /app/bin
 
 COPY logback.xml /app/conf/logback.xml
 
