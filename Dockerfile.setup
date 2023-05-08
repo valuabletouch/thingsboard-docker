@@ -15,7 +15,7 @@ COPY --from=build /src/msa/js-executor/target/tb-js-executor.deb /setup/tb-js-ex
 COPY --from=build /src/msa/web-ui/target/tb-web-ui.deb /setup/tb-web-ui.deb
 
 RUN set -ex && \
-    mkdir -p /usr/share/thingsboard
+    mkdir -p /usr/share/thingsboard && \
     dpkg -x /setup/thingsboard.deb /usr/share/thingsboard/core && \
     dpkg -x /setup/tb-coap-transport.deb /usr/share/thingsboard/coap && \
     dpkg -x /setup/tb-http-transport.deb /usr/share/thingsboard/http && \
