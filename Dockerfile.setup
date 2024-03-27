@@ -5,7 +5,7 @@ FROM $IMAGE_REPOSITORY/build:$IMAGE_VERSION AS build
 
 ARG IMAGE_REPOSITORY
 
-FROM openjdk:8-jre
+FROM openjdk:8-jre-alpine
 
 COPY --from=build /src/msa/tb-node/target/thingsboard.deb /setup/thingsboard.deb
 COPY --from=build /src/msa/transport/coap/target/tb-coap-transport.deb /setup/tb-coap-transport.deb
