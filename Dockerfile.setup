@@ -16,6 +16,7 @@ COPY --from=build /src/msa/web-ui/target/tb-web-ui.deb /setup/tb-web-ui.deb
 
 RUN set -ex && \
     mkdir -p /usr/share/thingsboard && \
+    mkdir -p /usr/share/thingsboard/core && \
     apk add --allow-untrusted /setup/thingsboard.deb /usr/share/thingsboard/core && \
     apk add --allow-untrusted /setup/tb-coap-transport.deb /usr/share/thingsboard/coap && \
     apk add --allow-untrusted /setup/tb-http-transport.deb /usr/share/thingsboard/http && \
