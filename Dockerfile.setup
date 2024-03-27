@@ -29,21 +29,22 @@ RUN dpkg -x /setup/tb-js-executor.deb /usr/share/thingsboard/js-executor
 
 RUN dpkg -x /setup/tb-web-ui.deb /usr/share/thingsboard/web-ui
 
-RUN ls -la /usr/share/thingsboard/core && \
-    ls -la /usr/share/thingsboard/coap && \
-    ls -la /usr/share/thingsboard/http && \
-    ls -la /usr/share/thingsboard/mqtt && \
-    ls -la /usr/share/thingsboard/js-executor && \
-    ls -la /usr/share/thingsboard/web-ui
+RUN ls
 
-# RUN chmod -R 555 /usr/share/thingsboard/core/thingsboard.jar
+RUN ls -la /app/bin
 
-# RUN chmod -R 555 /usr/share/thingsboard/coap/tb-coap-transport.jar
+RUN ls -la /usr/share/thingsboard/core
 
-# RUN chmod -R 555 /usr/share/thingsboard/http/tb-http-transport.jar
+RUN ls -la /usr/share/thingsboard/core/usr
 
-# RUN chmod -R 555 /usr/share/thingsboard/mqtt/tb-mqtt-transport.jar
+RUN chmod -R 555 /usr/share/thingsboard/core/thingsboard.jar
 
-# RUN chmod -R 555 /usr/share/thingsboard/js-executor
+RUN chmod -R 555 /usr/share/thingsboard/coap/tb-coap-transport.jar
 
-# RUN chmod -R 555 /usr/share/thingsboard/web-ui
+RUN chmod -R 555 /usr/share/thingsboard/http/tb-http-transport.jar
+
+RUN chmod -R 555 /usr/share/thingsboard/mqtt/tb-mqtt-transport.jar
+
+RUN chmod -R 555 /usr/share/thingsboard/js-executor
+
+RUN chmod -R 555 /usr/share/thingsboard/web-ui
