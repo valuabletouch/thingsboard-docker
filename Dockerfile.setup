@@ -5,7 +5,7 @@ FROM $IMAGE_REPOSITORY/build:$IMAGE_VERSION AS build
 
 ARG IMAGE_REPOSITORY
 
-FROM eclipse-temurin:8-jdk-alpine
+FROM openjdk:8
 
 COPY --from=build /src/msa/tb-node/target/thingsboard.deb /setup/thingsboard.deb
 COPY --from=build /src/msa/transport/coap/target/tb-coap-transport.deb /setup/tb-coap-transport.deb
@@ -17,17 +17,17 @@ COPY --from=build /src/msa/web-ui/target/tb-web-ui.deb /setup/tb-web-ui.deb
 RUN set -ex && \
     mkdir -p /usr/share/thingsboard
 
-RUN apk add --allow-untrusted /setup/thingsboard.deb /usr/share/thingsboard/core
+RUN dpkg -x /setup/thingsboard.deb /usr/share/thingsboard/core
 
-RUN apk add --allow-untrusted /setup/tb-coap-transport.deb /usr/share/thingsboard/coap
+RUN dpkg -x /setup/tb-coap-transport.deb /usr/share/thingsboard/coap
 
-RUN apk add --allow-untrusted /setup/tb-http-transport.deb /usr/share/thingsboard/http
+RUN dpkg -x /setup/tb-http-transport.deb /usr/share/thingsboard/http
 
-RUN apk add --allow-untrusted /setup/tb-mqtt-transport.deb /usr/share/thingsboard/mqtt
+RUN dpkg -x /setup/tb-mqtt-transport.deb /usr/share/thingsboard/mqtt
 
-RUN apk add --allow-untrusted /setup/tb-js-executor.deb /usr/share/thingsboard/js-executor
+RUN dpkg -x /setup/tb-js-executor.deb /usr/share/thingsboard/js-executor
 
-RUN apk add --allow-untrusted /setup/tb-web-ui.deb /usr/share/thingsboard/web-ui
+RUN dpkg -x /setup/tb-web-ui.deb /usr/share/thingsboard/web-ui
 
 RUN ls -la /usr/share/thingsboard/core && \
     ls -la /usr/share/thingsboard/coap && \
