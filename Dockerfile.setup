@@ -36,14 +36,14 @@ RUN ls -la /usr/share/thingsboard/core && \
     ls -la /usr/share/thingsboard/js-executor && \
     ls -la /usr/share/thingsboard/web-ui
 
-RUN chmod -R 555 /usr/share/thingsboard/core/thingsboard.jar
+# RUN chmod -R 555 /usr/share/thingsboard/core/thingsboard.jar
 
-RUN chmod -R 555 /usr/share/thingsboard/coap/tb-coap-transport.jar
+# RUN chmod -R 555 /usr/share/thingsboard/coap/tb-coap-transport.jar
 
-RUN chmod -R 555 /usr/share/thingsboard/http/tb-http-transport.jar
+# RUN chmod -R 555 /usr/share/thingsboard/http/tb-http-transport.jar
 
-RUN chmod -R 555 /usr/share/thingsboard/mqtt/tb-mqtt-transport.jar
+# RUN chmod -R 555 /usr/share/thingsboard/mqtt/tb-mqtt-transport.jar
 
-RUN chmod -R 555 /usr/share/thingsboard/js-executor
+# RUN chmod -R 555 /usr/share/thingsboard/js-executor
 
-RUN chmod -R 555 /usr/share/thingsboard/web-ui
+# RUN chmod -R 555 /usr/share/thingsboard/web-ui
