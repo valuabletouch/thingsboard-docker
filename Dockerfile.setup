@@ -29,19 +29,13 @@ RUN dpkg -x /setup/tb-js-executor.deb /usr/share/thingsboard/js-executor
 
 RUN dpkg -x /setup/tb-web-ui.deb /usr/share/thingsboard/web-ui
 
-RUN find / -iname 'tb-*.jar'
-
-RUN find / -iname "tb-*.jar"
-
-RUN find / -iname "*.jar"
-
 RUN chmod -R 555 /usr/share/thingsboard/core/usr/share/thingsboard/bin/thingsboard.jar
 
-# RUN chmod -R 555 /usr/share/thingsboard/coap/usr/share/thingsboard/bin/tb-coap-transport.jar
+RUN chmod -R 555 /usr/share/thingsboard/mqtt/usr/share/tb-mqtt-transport/bin/tb-mqtt-transport.jar
 
-# RUN chmod -R 555 /usr/share/thingsboard/http/usr/share/thingsboard/bin/tb-http-transport.jar
+RUN chmod -R 555 /usr/share/thingsboard/http/usr/share/tb-http-transport/bin/tb-http-transport.jar
 
-# RUN chmod -R 555 /usr/share/thingsboard/mqtt/usr/share/thingsboard/bin/tb-mqtt-transport.jar
+RUN chmod -R 555 /usr/share/thingsboard/coap/usr/share/tb-coap-transport/bin/tb-coap-transport.jar
 
 RUN chmod -R 555 /usr/share/thingsboard/js-executor
 
