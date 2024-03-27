@@ -20,54 +20,54 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    # - name: Check current path
-    #   run: pwd
+    - name: Check current path
+      run: pwd
 
-    # - name: Print Docker information
-    #   run: docker info
+    - name: Print Docker information
+      run: docker info
 
-    # - name: Check disk spaces before clean up
-    #   run: sudo df -hlT /
+    - name: Check disk spaces before clean up
+      run: sudo df -hlT /
 
-    # - name: List 100 largest packages before clean up
-    #   run: dpkg-query -Wf '${Installed-Size}\t${Package}\n' | sort -nr | head -n 100
+    - name: List 100 largest packages before clean up
+      run: dpkg-query -Wf '${Installed-Size}\t${Package}\n' | sort -nr | head -n 100
 
-    # - name: Clean up build environment for additional disk space
-    #   uses: rokibhasansagar/slimhub_actions@main
-    #   with:
-    #       retain: "docker_buildkit"
+    - name: Clean up build environment for additional disk space
+      uses: rokibhasansagar/slimhub_actions@main
+      with:
+          retain: "docker_buildkit"
 
-    # - name: Clean up build environment for additional disk space
-    #   run: |
-    #     set -x; \
-    #     sudo rm -rf /usr/local/share/boost; \
-    #     sudo -EH apt-fast -qq -y purge libgl1-mesa-dri powershell; \
-    #     sudo -EH apt-fast -qq -y autoremove
+    - name: Clean up build environment for additional disk space
+      run: |
+        set -x; \
+        sudo rm -rf /usr/local/share/boost; \
+        sudo -EH apt-fast -qq -y purge libgl1-mesa-dri powershell; \
+        sudo -EH apt-fast -qq -y autoremove
 
-    # - name: List 100 largest packages after clean up
-    #   run: dpkg-query -Wf '${Installed-Size}\t${Package}\n' | sort -nr | head -n 100
+    - name: List 100 largest packages after clean up
+      run: dpkg-query -Wf '${Installed-Size}\t${Package}\n' | sort -nr | head -n 100
 
-    # - name: Check disk spaces after clean up
-    #   run: sudo df -hlT /
+    - name: Check disk spaces after clean up
+      run: sudo df -hlT /
 
-    # - name: Checkout files
-    #   uses: actions/checkout@v2
+    - name: Checkout files
+      uses: actions/checkout@v2
 
-    # - name: Build 'ThingsBoard Base' Docker Image
-    #   run: |
-    #     docker build \
-    #         --file Dockerfile.base \
-    #         --tag $IMAGE_REGISTRY/$IMAGE_REPOSITORY/base:latest \
-    #         .
+    - name: Build 'ThingsBoard Base' Docker Image
+      run: |
+        docker build \
+            --file Dockerfile.base \
+            --tag $IMAGE_REGISTRY/$IMAGE_REPOSITORY/base:latest \
+            .
 
-    # - name: Build 'ThingsBoard Build Intermadiate' Docker Image
-    #   run: |
-    #     docker build \
-    #         --file Dockerfile.build \
-    #         --tag $IMAGE_REGISTRY/$IMAGE_REPOSITORY/build:$IMAGE_VERSION \
-    #         --build-arg THINGSBOARD_GIT_REPO=$THINGSBOARD_GIT_REPO \
-    #         --build-arg THINGSBOARD_GIT_BRANCH=$THINGSBOARD_GIT_BRANCH \
-    #         .
+    - name: Build 'ThingsBoard Build Intermadiate' Docker Image
+      run: |
+        docker build \
+            --file Dockerfile.build \
+            --tag $IMAGE_REGISTRY/$IMAGE_REPOSITORY/build:$IMAGE_VERSION \
+            --build-arg THINGSBOARD_GIT_REPO=$THINGSBOARD_GIT_REPO \
+            --build-arg THINGSBOARD_GIT_BRANCH=$THINGSBOARD_GIT_BRANCH \
+            .
 
     - name: Build 'ThingsBoard Setup Intermadiate' Docker Image
       run: |
