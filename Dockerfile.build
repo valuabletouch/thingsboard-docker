@@ -1,21 +1,18 @@
-FROM maven:latest
+FROM maven:3.8.4-jdk-8
 
-WORKDIR /app
+ARG THINGSBOARD_GIT_REPO
+ARG THINGSBOARD_GIT_BRANCH
 
-# Set Java home environment variable
-ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64
-
-# Set MAVEN_HOME environment variable
-ENV MAVEN_HOME /usr/share/maven
-
-# Set MAVEN_OPTS environment variable
-ENV MAVEN_OPTS "-Xms256m -Xmx512m"
-
-# Clone the git repository and change directory
-RUN git clone --single-branch --branch $THINGSBOARD_GIT_BRANCH --progress $THINGSBOARD_GIT_REPO /src && \
+RUN set -ex && \
+    git clone --single-branch --branch $THINGSBOARD_GIT_BRANCH --progress $THINGSBOARD_GIT_REPO /src && \
     cd /src && \
-    # Execute the Maven command
-    sh -c "\"$JAVA_HOME/bin/java\" $MAVEN_OPTS -Dmaven.multiModuleProjectDirectory=\"$PWD\" -Dmaven.home=\"$MAVEN_HOME\" -Dclassworlds.conf=\"$MAVEN_HOME/bin/m2.conf\" -Dfile.encoding=UTF-8 -classpath \"$MAVEN_HOME/boot/plexus-classworlds-2.7.0.jar:$MAVEN_HOME/boot/plexus-classworlds.license\" org.codehaus.classworlds.Launcher clean install -T 4 -Dmaven.clean.excludeDefaultDirectories=true -Dmaven.compiler.useIncrementalCompilation=false -Dlicense.skip=true -Dmaven.test.skip=true -Djansi.passthrough=true -Ddockerfile.skip=true -DblackBoxTests.skip=true"
-
-# Set the command to be executed when running the container
-CMD ["sh", "-c", "\"$JAVA_HOME/bin/java\" $MAVEN_OPTS -Dmaven.multiModuleProjectDirectory=\"$PWD\" -Dmaven.home=\"$MAVEN_HOME\" -Dclassworlds.conf=\"$MAVEN_HOME/bin/m2.conf\" -Dfile.encoding=UTF-8 -classpath \"$MAVEN_HOME/boot/plexus-classworlds-2.7.0.jar:$MAVEN_HOME/boot/plexus-classworlds.license\" org.codehaus.classworlds.Launcher clean install -T 4 -Dmaven.clean.excludeDefaultDirectories=true -Dmaven.compiler.useIncrementalCompilation=false -Dlicense.skip=true -Dmaven.test.skip=true -Djansi.passthrough=true -Ddockerfile.skip=true -DblackBoxTests.skip=true"]
+    mvn clean && \
+    mvn install \
+        --errors \
+        --batch-mode \
+        --no-transfer-progress \
+        --define skip.license.check=true \
+        --define skipTests=true \
+        --define blackBoxTests.skip=true \
+        --define dockerfile.skip=true \
+        --projects '!org.thingsboard.msa:black-box-tests,!org.thingsboard.msa:tb'
