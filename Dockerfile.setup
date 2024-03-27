@@ -16,12 +16,12 @@ COPY --from=build /src/msa/web-ui/target/tb-web-ui.deb /setup/tb-web-ui.deb
 
 RUN set -ex && \
     mkdir -p /usr/share/thingsboard && \
-    dpkg -x /setup/thingsboard.deb /usr/share/thingsboard/core && \
-    dpkg -x /setup/tb-coap-transport.deb /usr/share/thingsboard/coap && \
-    dpkg -x /setup/tb-http-transport.deb /usr/share/thingsboard/http && \
-    dpkg -x /setup/tb-mqtt-transport.deb /usr/share/thingsboard/mqtt && \
-    dpkg -x /setup/tb-js-executor.deb /usr/share/thingsboard/js-executor && \
-    dpkg -x /setup/tb-web-ui.deb /usr/share/thingsboard/web-ui && \
+    apk add --allow-untrusted /setup/thingsboard.deb /usr/share/thingsboard/core && \
+    apk add --allow-untrusted /setup/tb-coap-transport.deb /usr/share/thingsboard/coap && \
+    apk add --allow-untrusted /setup/tb-http-transport.deb /usr/share/thingsboard/http && \
+    apk add --allow-untrusted /setup/tb-mqtt-transport.deb /usr/share/thingsboard/mqtt && \
+    apk add --allow-untrusted /setup/tb-js-executor.deb /usr/share/thingsboard/js-executor && \
+    apk add --allow-untrusted /setup/tb-web-ui.deb /usr/share/thingsboard/web-ui && \
     ls -la /usr/share/thingsboard/core && \
     ls -la /usr/share/thingsboard/coap && \
     ls -la /usr/share/thingsboard/http && \
