@@ -29,6 +29,12 @@ RUN dpkg -x /setup/tb-js-executor.deb /usr/share/thingsboard/js-executor
 
 RUN dpkg -x /setup/tb-web-ui.deb /usr/share/thingsboard/web-ui
 
+RUN ls -la /usr/share/thingsboard/js-executor
+
+RUN ls -la /usr/share/thingsboard/js-executor/usr
+
+RUN ls -la /usr/share/thingsboard/js-executor/usr/share
+
 RUN chmod -R 555 /usr/share/thingsboard/core/usr/share/thingsboard/bin/thingsboard.jar
 
 RUN chmod -R 555 /usr/share/thingsboard/mqtt/usr/share/tb-mqtt-transport/bin/tb-mqtt-transport.jar

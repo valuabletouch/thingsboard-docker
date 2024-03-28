@@ -22,7 +22,13 @@ RUN set -ex && \
     chown -R thingsboard:thingsboard /app/log && \
     chown -R thingsboard:thingsboard /tmp
 
+Run ls -la /usr/share/thingsboard/js-executor
+
 COPY --from=setup /usr/share/thingsboard/js-executor /app/bin
+
+RUN ls -la /app/bin
+
+RUN find / -iname "*executor"
 
 COPY logback.xml /app/conf/logback.xml
 
