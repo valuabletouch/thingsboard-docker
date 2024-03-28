@@ -22,9 +22,7 @@ RUN set -ex && \
     chown -R thingsboard:thingsboard /app/log && \
     chown -R thingsboard:thingsboard /tmp
 
-Run ls -la /usr/share/thingsboard/js-executor
-
-COPY --from=setup /usr/share/thingsboard/js-executor /app/bin
+COPY --from=setup /usr/share/thingsboard/js-executor/usr/share /app/bin
 
 RUN ls -la /app/bin
 
