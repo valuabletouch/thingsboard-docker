@@ -25,8 +25,6 @@ RUN set -ex && \
 
 COPY --from=setup /usr/share/thingsboard/web-ui/usr/share /app/bin
 
-RUN ls -la /app/bin
-
 COPY logback.xml /app/conf/logback.xml
 
 USER thingsboard
