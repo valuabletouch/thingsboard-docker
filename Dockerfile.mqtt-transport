@@ -11,7 +11,7 @@ ARG THINGSBOARD_VERSION
 
 LABEL maintainer="yasin.akar@vtcenerji.com"
 
-COPY --from=build /usr/share/tb-mqtt-transport/bin/ /app/bin/
+COPY --from=build /usr/share/tb-mqtt-transport/ /app/
 
 COPY logback.xml /app/conf/logback.xml
 

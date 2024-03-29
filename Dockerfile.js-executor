@@ -15,7 +15,7 @@ ENV NODE_ENV=production
 ENV NODE_CONFIG_DIR=/app/conf
 ENV LOG_FOLDER=/app/log
 
-COPY --from=build /usr/share/tb-js-executor/bin/ /app/bin/
+COPY --from=build /usr/share/tb-js-executor/ /app/
 
 COPY logback.xml /app/conf/logback.xml
 

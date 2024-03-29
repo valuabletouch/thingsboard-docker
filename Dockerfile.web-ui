@@ -16,7 +16,7 @@ ENV NODE_CONFIG_DIR=/app/conf
 ENV WEB_FOLDER=/app/web
 ENV LOG_FOLDER=/app/log
 
-COPY --from=build /usr/share/tb-web-ui/bin/ /app/bin/
+COPY --from=build /usr/share/tb-web-ui/ /app/
 
 COPY logback.xml /app/conf/logback.xml
 
