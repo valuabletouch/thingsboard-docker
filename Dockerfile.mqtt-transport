@@ -1,7 +1,7 @@
 ARG IMAGE_REPOSITORY
 ARG IMAGE_VERSION
 
-FROM $IMAGE_REPOSITORY/setup:$IMAGE_VERSION AS setup
+FROM $IMAGE_REPOSITORY/build:$IMAGE_VERSION AS build
 
 ARG IMAGE_REPOSITORY
 
@@ -9,18 +9,19 @@ FROM $IMAGE_REPOSITORY/base
 
 ARG THINGSBOARD_VERSION
 
-LABEL maintainer="yasin.akar@vtc.com.tr"
+LABEL maintainer="yasin.akar@vtcenerji.com"
 
-COPY --from=setup /usr/share/thingsboard/mqtt/usr/share/tb-mqtt-transport/bin /app/bin
+COPY --from=build /usr/share/tb-mqtt-transport/bin/ /app/bin/
 
 COPY logback.xml /app/conf/logback.xml
 
 COPY docker-entrypoint-mqtt-transport.sh /usr/bin/docker-entrypoint.sh
 
-RUN set -ex && \
-    chmod a+x /usr/bin/docker-entrypoint.sh && \
-    mkdir -p /app/log && \
-    chown -R thingsboard:thingsboard /app/log && \
+RUN set -ex; \
+    mkdir -p /app/log; \
+    chmod a+x /usr/bin/docker-entrypoint.sh; \
+    chown thingsboard:thingsboard /usr/bin/docker-entrypoint.sh; \
+    chown -R thingsboard:thingsboard /app; \
     chown -R thingsboard:thingsboard /tmp
 
 ENV LOG_FILENAME=log.out

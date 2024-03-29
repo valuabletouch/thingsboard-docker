@@ -1,11 +1,11 @@
-FROM maven:3.8.4-jdk-8
+FROM maven:3-jdk-8
 
 ARG THINGSBOARD_GIT_REPO
 ARG THINGSBOARD_GIT_BRANCH
 
-RUN set -ex && \
-    git clone --single-branch --branch $THINGSBOARD_GIT_BRANCH --progress $THINGSBOARD_GIT_REPO /src && \
-    cd /src && \
+RUN set -ex; \
+    git clone --single-branch --branch $THINGSBOARD_GIT_BRANCH --progress $THINGSBOARD_GIT_REPO /src; \
+    cd /src; \
     mvn clean install \
         --errors \
         --batch-mode \
@@ -15,3 +15,10 @@ RUN set -ex && \
         --define blackBoxTests.skip=true \
         --define dockerfile.skip=true \
         --projects '!org.thingsboard.msa:black-box-tests,!org.thingsboard.msa:tb'
+
+RUN dpkg --force-all --install /src/msa/tb-node/target/thingsboard.deb
+RUN dpkg --force-all --install /src/msa/transport/coap/target/tb-coap-transport.deb
+RUN dpkg --force-all --install /src/msa/transport/http/target/tb-http-transport.deb
+RUN dpkg --force-all --install /src/msa/transport/mqtt/target/tb-mqtt-transport.deb
+RUN dpkg --force-all --install /src/msa/js-executor/target/tb-js-executor.deb
+RUN dpkg --force-all --install /src/msa/web-ui/target/tb-web-ui.deb
