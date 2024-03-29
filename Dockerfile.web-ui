@@ -31,7 +31,7 @@ RUN set -ex; \
         --disabled-password \
         --no-create-home \
         --gecos "V-Sensor Application" \
-        thingsboard;
+        thingsboard; \
     mkdir -p /app/log; \
     chown -R thingsboard:thingsboard /app; \
     chown -R thingsboard:thingsboard /tmp; \
