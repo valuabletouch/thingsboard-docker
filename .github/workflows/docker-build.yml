@@ -68,7 +68,6 @@ jobs:
             --build-arg THINGSBOARD_GIT_REPO=$THINGSBOARD_GIT_REPO \
             --build-arg THINGSBOARD_GIT_BRANCH=$THINGSBOARD_GIT_BRANCH \
             .
-            .
 
     - name: Build 'ThingsBoard Node Microservice' Docker Image
       run: |
