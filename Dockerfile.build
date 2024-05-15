@@ -7,6 +7,7 @@ RUN set -ex; \
     git clone --single-branch --branch $THINGSBOARD_GIT_BRANCH --progress $THINGSBOARD_GIT_REPO /src; \
     cd /src; \
     mvn clean install \
+        dependency:copy-dependencies \
         -T 4 \
         -Dmaven.clean.excludeDefaultDirectories=true \
         -Dmaven.compiler.useIncrementalCompilation=false \
