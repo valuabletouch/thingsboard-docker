@@ -17,6 +17,8 @@ COPY logback.xml /app/conf/logback.xml
 
 COPY docker-entrypoint-mqtt-transport.sh /usr/bin/docker-entrypoint.sh
 
+RUN dos2unix /usr/bin/docker-entrypoint.sh
+
 RUN set -ex; \
     mkdir -p /app/log; \
     chmod a+x /usr/bin/docker-entrypoint.sh; \
