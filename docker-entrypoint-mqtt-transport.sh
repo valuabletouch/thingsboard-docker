@@ -28,4 +28,4 @@ exec java -cp \
     -Dloader.main=$appMainClass \
     -Dspring.jpa.hibernate.ddl-auto=none \
     -Dlogging.config="$logbackFilePath" \
-    org.springframework.boot.loader.PropertiesLauncher
+    org.springframework.boot.loader.launch.PropertiesLauncher

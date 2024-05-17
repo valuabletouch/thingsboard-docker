@@ -38,7 +38,7 @@ if [ "$STARTUP_MODE" == "install" ]; then
         -Dinstall.load_demo=$loadDemoData \
         -Dinstall.upgrade=false \
         -Dlogging.config="$logbackFilePath" \
-        org.springframework.boot.loader.PropertiesLauncher 2>&1 || :
+        org.springframework.boot.loader.launch.PropertiesLauncher 2>&1 || :
 
 elif [ "$STARTUP_MODE" == "upgrade" ]; then
 
@@ -53,7 +53,7 @@ elif [ "$STARTUP_MODE" == "upgrade" ]; then
         -Dspring.jpa.hibernate.ddl-auto=none \
         -Dupgrade.upgrade=true \
         -Dlogging.config="$logbackFilePath" \
-        org.springframework.boot.loader.PropertiesLauncher 2>&1 || :
+        org.springframework.boot.loader.launch.PropertiesLauncher 2>&1 || :
 
 else
 
@@ -67,5 +67,5 @@ else
         -Dloader.main=$appMainClass \
         -Dspring.jpa.hibernate.ddl-auto=none \
         -Dlogging.config="$logbackFilePath" \
-        org.springframework.boot.loader.PropertiesLauncher
+        org.springframework.boot.loader.launch.PropertiesLauncher
 fi
