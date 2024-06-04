@@ -30,6 +30,7 @@ ENV LOG_FILENAME=log.out
 
 ENV LOADER_PATH=/app/conf
 
+ENV JAVA_OPTS="$JAVA_OPTS -Dspring.jpa.hibernate.ddl-auto=none"
 ENV JAVA_OPTS="$JAVA_OPTS -Dplatform=deb -Xloggc:/app/log/gc.log"
 ENV JAVA_OPTS="$JAVA_OPTS -XX:+IgnoreUnrecognizedVMOptions -XX:+HeapDumpOnOutOfMemoryError -XX:+PrintGCDetails -XX:+PrintGCDateStamps"
 ENV JAVA_OPTS="$JAVA_OPTS -XX:+PrintHeapAtGC -XX:+PrintTenuringDistribution -XX:+PrintGCApplicationStoppedTime -XX:+UseGCLogFileRotation -XX:NumberOfGCLogFiles=10"

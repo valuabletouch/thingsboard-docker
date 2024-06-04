@@ -18,6 +18,24 @@ if [ "$ENABLE_DEBUGGING" = "true" ] || [ "$ENABLE_DEBUGGING" = "1" ]; then
     JAVA_OPTS="$JAVA_OPTS -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=0.0.0.0:$DEBUGGER_PORT"
 fi
 
+if [ "$ENABLE_REMOTE_JMX" = "true" ]; then
+    if [ -z "$REMOTE_JMX_PORT" ]; then
+        REMOTE_JMX_PORT=49090
+    fi
+
+    if [ -z "$REMOTE_JMX_HOST" ]; then
+        REMOTE_JMX_HOST=0.0.0.0
+    fi
+
+    JAVA_OPTS="$JAVA_OPTS -Dcom.sun.management.jmxremote=true"
+    JAVA_OPTS="$JAVA_OPTS -Dcom.sun.management.jmxremote.authenticate=false"
+    JAVA_OPTS="$JAVA_OPTS -Dcom.sun.management.jmxremote.ssl=false"
+    JAVA_OPTS="$JAVA_OPTS -Dcom.sun.management.jmxremote.local.only=false"
+    JAVA_OPTS="$JAVA_OPTS -Dcom.sun.management.jmxremote.port=$REMOTE_JMX_PORT"
+    JAVA_OPTS="$JAVA_OPTS -Dcom.sun.management.jmxremote.rmi.port=$REMOTE_JMX_PORT"
+    JAVA_OPTS="$JAVA_OPTS -Djava.rmi.server.hostname=$REMOTE_JMX_HOST"
+fi
+
 if [ "$STARTUP_MODE" == "install" ]; then
 
     if [ "$LOAD_DEMO_DATA" == "true" ]; then
@@ -34,7 +52,6 @@ if [ "$STARTUP_MODE" == "install" ]; then
         "$jarFilePath" \
         $JAVA_OPTS \
         -Dloader.main=$installMainClaass \
-        -Dspring.jpa.hibernate.ddl-auto=none \
         -Dinstall.load_demo=$loadDemoData \
         -Dinstall.upgrade=false \
         -Dlogging.config="$logbackFilePath" \
@@ -50,7 +67,6 @@ elif [ "$STARTUP_MODE" == "upgrade" ]; then
         "$jarFilePath" \
         $JAVA_OPTS \
         -Dloader.main=$upgradeMainClass \
-        -Dspring.jpa.hibernate.ddl-auto=none \
         -Dupgrade.upgrade=true \
         -Dlogging.config="$logbackFilePath" \
         org.springframework.boot.loader.launch.PropertiesLauncher 2>&1 || :
@@ -65,7 +81,6 @@ else
         "$jarFilePath" \
         $JAVA_OPTS \
         -Dloader.main=$appMainClass \
-        -Dspring.jpa.hibernate.ddl-auto=none \
         -Dlogging.config="$logbackFilePath" \
         org.springframework.boot.loader.launch.PropertiesLauncher
 fi
