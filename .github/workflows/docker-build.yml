@@ -37,12 +37,18 @@ jobs:
       with:
           retain: "docker_buildkit"
 
+    - name: Install apt-fast for faster package management
+      run: |
+        sudo add-apt-repository -y ppa:apt-fast/stable
+        sudo apt-get update
+        sudo apt-get install -y apt-fast
+
     - name: Clean up build environment for additional disk space
       run: |
         set -x; \
         sudo rm -rf /usr/local/share/boost; \
-        sudo -EH apt-get -qq -y purge libgl1-mesa-dri powershell; \
-        sudo -EH apt-get -qq -y autoremove
+        sudo -EH apt-fast -qq -y purge libgl1-mesa-dri powershell; \
+        sudo -EH apt-fast -qq -y autoremove
 
     - name: List 100 largest packages after clean up
       run: dpkg-query -Wf '${Installed-Size}\t${Package}\n' | sort -nr | head -n 100
