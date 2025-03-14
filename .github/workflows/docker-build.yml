@@ -17,7 +17,7 @@ env:
 
 jobs:
   build:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
 
     steps:
     - name: Check current path
@@ -35,14 +35,7 @@ jobs:
     - name: Clean up build environment for additional disk space
       uses: rokibhasansagar/slimhub_actions@main
       with:
-          retain: "docker_buildkit"
-
-    - name: Clean up build environment for additional disk space
-      run: |
-        set -x; \
-        sudo rm -rf /usr/local/share/boost; \
-        sudo -EH apt-fast -qq -y purge libgl1-mesa-dri powershell; \
-        sudo -EH apt-fast -qq -y autoremove
+          retain: "docker_buildkit,java_tools,nodejs_npm"
 
     - name: List 100 largest packages after clean up
       run: dpkg-query -Wf '${Installed-Size}\t${Package}\n' | sort -nr | head -n 100
