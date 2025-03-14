@@ -1,21 +1,15 @@
-FROM debian:stretch
+FROM eclipse-temurin:17-jre-alpine
+
+RUN apk add --no-cache bash dos2unix
 
 RUN addgroup \
         --system thingsboard \
-        --gid=799 && \
+        --gid 799 && \
     adduser \
-        --quiet \
         --system \
-        --uid=799 \
+        --uid 799 \
         --ingroup thingsboard \
-        --quiet \
-        --disabled-login \
         --disabled-password \
         --no-create-home \
-        -gecos "V-Sensor Application" \
+        --gecos "V-Sensor Application" \
         thingsboard
-
-RUN set -ex && \
-    apt-get update && \
-    apt-get install -y --no-install-recommends openjdk-8-jre && \
-    rm -rf /var/lib/apt/lists/*
