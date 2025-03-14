@@ -42,6 +42,12 @@ jobs:
       if: ${{ inputs.debug }}
       run: dpkg-query -Wf '${Installed-Size}\t${Package}\n' | sort -nr | head -n 100
 
+    - name: Ensure `apt-fast` is installed
+      run: |
+        sudo add-apt-repository ppa:apt-fast/stable
+        sudo apt-get update
+        sudo apt-get -y install apt-fast
+
     - name: Clean up build environment for additional disk space
       uses: rokibhasansagar/slimhub_actions@main
       with:
