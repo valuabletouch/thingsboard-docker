@@ -45,7 +45,7 @@ jobs:
     - name: Clean up build environment for additional disk space
       uses: rokibhasansagar/slimhub_actions@main
       with:
-          retain: "docker_buildkit,java_tools,nodejs_npm"
+          retain: "docker_buildkit,java_tools"
 
     - name: List 100 largest packages after clean up
       if: ${{ inputs.debug }}
