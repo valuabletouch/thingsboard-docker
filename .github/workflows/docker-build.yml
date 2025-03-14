@@ -4,8 +4,16 @@ on:
   push:
     branches:
       - main
-  workflow_dispatch:
+
   repository_dispatch:
+
+  workflow_dispatch:
+    inputs:
+      debug:
+        type: boolean
+        description: 'Enable debug mode'
+        required: false
+        default: false
 
 env:
   IMAGE_REGISTRY: docker.pkg.github.com
@@ -27,9 +35,11 @@ jobs:
       run: docker info
 
     - name: Check disk spaces before clean up
+      if: ${{ inputs.debug }}
       run: sudo df -hlT /
 
     - name: List 100 largest packages before clean up
+      if: ${{ inputs.debug }}
       run: dpkg-query -Wf '${Installed-Size}\t${Package}\n' | sort -nr | head -n 100
 
     - name: Clean up build environment for additional disk space
@@ -38,9 +48,11 @@ jobs:
           retain: "docker_buildkit,java_tools,nodejs_npm"
 
     - name: List 100 largest packages after clean up
+      if: ${{ inputs.debug }}
       run: dpkg-query -Wf '${Installed-Size}\t${Package}\n' | sort -nr | head -n 100
 
     - name: Check disk spaces after clean up
+      if: ${{ inputs.debug }}
       run: sudo df -hlT /
 
     - name: Checkout files
