@@ -16,12 +16,13 @@ RUN set -ex; \
     node -v; \
     corepack enable yarn; \
     yarn -v; \
-    yarn cache clean; \
-    yarn --update-checksums
+    yarn cache clean
 
 RUN set -ex; \
     git clone --single-branch --branch $THINGSBOARD_GIT_BRANCH --progress $THINGSBOARD_GIT_REPO /src; \
     cd /src; \
+    yarn --update-checksums --cwd ./ui-ngx; \
+    yarn --update-checksums --cwd ./msa/js-executor; \
     mvn clean install \
         dependency:copy-dependencies \
         -T 4 \
