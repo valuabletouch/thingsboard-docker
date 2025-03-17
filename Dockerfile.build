@@ -19,10 +19,6 @@ RUN set -ex; \
     yarn cache clean; \
     git clone --single-branch --branch $THINGSBOARD_GIT_BRANCH --progress $THINGSBOARD_GIT_REPO /src; \
     cd /src; \
-    rm ./msa/web-ui/yarn.lock; \
-    rm ./ui-ngx/yarn.lock; \
-    yarn --update-checksums --cwd ./msa/js-executor; \
-    yarn --update-checksums --cwd ./ui-ngx; \
     mvn clean install \
         dependency:copy-dependencies \
         -T 4 \
