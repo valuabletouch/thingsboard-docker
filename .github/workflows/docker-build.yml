@@ -63,6 +63,8 @@ jobs:
 
     - name: Ensure Node.js & Yarn are installed
       run: |
+        set -ex
+
         # Download and install fnm:
         curl -o- https://fnm.vercel.app/install | bash
 
