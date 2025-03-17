@@ -15,7 +15,9 @@ RUN set -ex; \
     fnm install 22; \
     node -v; \
     corepack enable yarn; \
-    yarn -v
+    yarn -v; \
+    yarn cache clean; \
+    yarn --update-checksums
 
 RUN set -ex; \
     git clone --single-branch --branch $THINGSBOARD_GIT_BRANCH --progress $THINGSBOARD_GIT_REPO /src; \
