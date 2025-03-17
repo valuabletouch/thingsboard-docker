@@ -66,6 +66,9 @@ jobs:
         # Download and install fnm:
         curl -o- https://fnm.vercel.app/install | bash
 
+        # Load fnm into the current shell:
+        source /home/runner/.bashrc
+
         # Download and install Node.js:
         fnm install 22
 
