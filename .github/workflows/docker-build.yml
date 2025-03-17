@@ -42,7 +42,7 @@ jobs:
       if: ${{ inputs.debug }}
       run: dpkg-query -Wf '${Installed-Size}\t${Package}\n' | sort -nr | head -n 100
 
-    - name: Ensure `apt-fast` is installed
+    - name: Ensure apt-fast is installed
       run: |
         sudo add-apt-repository ppa:apt-fast/stable
         sudo apt-get update
@@ -60,6 +60,23 @@ jobs:
     - name: Check disk spaces after clean up
       if: ${{ inputs.debug }}
       run: sudo df -hlT /
+
+    - name: Ensure Node.js & Yarn are installed
+      run: |
+        # Download and install fnm:
+        curl -o- https://fnm.vercel.app/install | bash
+
+        # Download and install Node.js:
+        fnm install 22
+
+        # Verify the Node.js version:
+        node -v
+
+        # Download and install Yarn:
+        corepack enable yarn
+
+        # Verify Yarn version:
+        yarn -v
 
     - name: Checkout files
       uses: actions/checkout@v2
@@ -202,5 +219,5 @@ jobs:
           --data-raw '{"variables":{"ThingsBoard.ImageTag":{"isSecret":false,"value":"${{ env.IMAGE_VERSION }}"}}}'
 
     - name: Check disk spaces after build
-      if: ${{ always() }}
+      if: ${{ inputs.debug && !cancelled() }}
       run: sudo df -h
