@@ -99,6 +99,17 @@ jobs:
             --build-arg THINGSBOARD_VERSION=$THINGSBOARD_VERSION \
             .
 
+    - name: Build 'ThingsBoard Monitoring Microservice' Docker Image
+      run: |
+        docker build \
+            --file Dockerfile.monitoring \
+            --tag $IMAGE_REGISTRY/$IMAGE_REPOSITORY/monitoring:latest \
+            --tag $IMAGE_REGISTRY/$IMAGE_REPOSITORY/monitoring:$IMAGE_VERSION \
+            --build-arg IMAGE_REPOSITORY=$IMAGE_REGISTRY/$IMAGE_REPOSITORY \
+            --build-arg IMAGE_VERSION=$IMAGE_VERSION \
+            --build-arg THINGSBOARD_VERSION=$THINGSBOARD_VERSION \
+            .
+
     - name: Build 'ThingsBoard COAP Transport Microservice' Docker Image
       run: |
         docker build \
@@ -121,12 +132,34 @@ jobs:
             --build-arg THINGSBOARD_VERSION=$THINGSBOARD_VERSION \
             .
 
+    - name: Build 'ThingsBoard LWM2M Transport Microservice' Docker Image
+      run: |
+        docker build \
+            --file Dockerfile.lwm2m-transport \
+            --tag $IMAGE_REGISTRY/$IMAGE_REPOSITORY/lwm2m-transport:latest \
+            --tag $IMAGE_REGISTRY/$IMAGE_REPOSITORY/lwm2m-transport:$IMAGE_VERSION \
+            --build-arg IMAGE_REPOSITORY=$IMAGE_REGISTRY/$IMAGE_REPOSITORY \
+            --build-arg IMAGE_VERSION=$IMAGE_VERSION \
+            --build-arg THINGSBOARD_VERSION=$THINGSBOARD_VERSION \
+            .
+
     - name: Build 'ThingsBoard MQTT Transport Microservice' Docker Image
       run: |
         docker build \
             --file Dockerfile.mqtt-transport \
             --tag $IMAGE_REGISTRY/$IMAGE_REPOSITORY/mqtt-transport:latest \
             --tag $IMAGE_REGISTRY/$IMAGE_REPOSITORY/mqtt-transport:$IMAGE_VERSION \
+            --build-arg IMAGE_REPOSITORY=$IMAGE_REGISTRY/$IMAGE_REPOSITORY \
+            --build-arg IMAGE_VERSION=$IMAGE_VERSION \
+            --build-arg THINGSBOARD_VERSION=$THINGSBOARD_VERSION \
+            .
+
+    - name: Build 'ThingsBoard SNMP Transport Microservice' Docker Image
+      run: |
+        docker build \
+            --file Dockerfile.snmp-transport \
+            --tag $IMAGE_REGISTRY/$IMAGE_REPOSITORY/snmp-transport:latest \
+            --tag $IMAGE_REGISTRY/$IMAGE_REPOSITORY/snmp-transport:$IMAGE_VERSION \
             --build-arg IMAGE_REPOSITORY=$IMAGE_REGISTRY/$IMAGE_REPOSITORY \
             --build-arg IMAGE_VERSION=$IMAGE_VERSION \
             --build-arg THINGSBOARD_VERSION=$THINGSBOARD_VERSION \
@@ -170,6 +203,12 @@ jobs:
     - name: Push 'ThingsBoard Node Microservice' Image to Docker Registry (build)
       run: docker push $IMAGE_REGISTRY/$IMAGE_REPOSITORY/node:$IMAGE_VERSION
 
+    - name: Push 'ThingsBoard Monitoring Microservice' Image to Docker Registry (latest)
+      run: docker push $IMAGE_REGISTRY/$IMAGE_REPOSITORY/monitoring:latest
+
+    - name: Push 'ThingsBoard Monitoring Microservice' Image to Docker Registry (build)
+      run: docker push $IMAGE_REGISTRY/$IMAGE_REPOSITORY/monitoring:$IMAGE_VERSION
+
     - name: Push 'ThingsBoard COAP Transport Microservice' Image to Docker Registry (latest)
       run: docker push $IMAGE_REGISTRY/$IMAGE_REPOSITORY/coap-transport:latest
 
@@ -182,11 +221,23 @@ jobs:
     - name: Push 'ThingsBoard HTTP Transport Microservice' Image to Docker Registry (build)
       run: docker push $IMAGE_REGISTRY/$IMAGE_REPOSITORY/http-transport:$IMAGE_VERSION
 
+    - name: Push 'ThingsBoard LWM2M Transport Microservice' Image to Docker Registry (latest)
+      run: docker push $IMAGE_REGISTRY/$IMAGE_REPOSITORY/lwm2m-transport:latest
+
+    - name: Push 'ThingsBoard LWM2M Transport Microservice' Image to Docker Registry (build)
+      run: docker push $IMAGE_REGISTRY/$IMAGE_REPOSITORY/lwm2m-transport:$IMAGE_VERSION
+
     - name: Push 'ThingsBoard MQTT Transport Microservice' Image to Docker Registry (latest)
       run: docker push $IMAGE_REGISTRY/$IMAGE_REPOSITORY/mqtt-transport:latest
 
     - name: Push 'ThingsBoard MQTT Transport Microservice' Image to Docker Registry (build)
       run: docker push $IMAGE_REGISTRY/$IMAGE_REPOSITORY/mqtt-transport:$IMAGE_VERSION
+
+    - name: Push 'ThingsBoard SNMP Transport Microservice' Image to Docker Registry (latest)
+      run: docker push $IMAGE_REGISTRY/$IMAGE_REPOSITORY/snmp-transport:latest
+
+    - name: Push 'ThingsBoard SNMP Transport Microservice' Image to Docker Registry (build)
+      run: docker push $IMAGE_REGISTRY/$IMAGE_REPOSITORY/snmp-transport:$IMAGE_VERSION
 
     - name: Push 'ThingsBoard JavaScript Executor Microservice' Image to Docker Registry (latest)
       run: docker push $IMAGE_REGISTRY/$IMAGE_REPOSITORY/js-executor:latest
