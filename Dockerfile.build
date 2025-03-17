@@ -21,6 +21,7 @@ RUN set -ex; \
         -DblackBoxTests.skip=true
 
 RUN dpkg --force-all --install /src/msa/tb-node/target/thingsboard.deb
+RUN dpkg --force-all --install /src/msa/tb-monitoring/target/tb-monitoring.deb
 RUN dpkg --force-all --install /src/msa/transport/coap/target/tb-coap-transport.deb
 RUN dpkg --force-all --install /src/msa/transport/http/target/tb-http-transport.deb
 RUN dpkg --force-all --install /src/msa/transport/lwm2m/target/tb-lwm2m-transport.deb
