@@ -9,7 +9,9 @@ RUN set -ex; \
         curl \
         unzip; \
     bash -c "$(curl -fsSL https://fnm.vercel.app/install)"; \
-    . ~/.bashrc; \
+    export FNM_PATH="/root/.local/share/fnm"; \
+    export PATH="$FNM_PATH:$PATH"; \
+    eval "`fnm env`"; \
     fnm install 22; \
     node -v; \
     corepack enable yarn; \
