@@ -4,21 +4,11 @@ ARG THINGSBOARD_GIT_REPO
 ARG THINGSBOARD_GIT_BRANCH
 
 RUN set -ex; \
-    apt-get update; \
-    apt-get install -y --no-install-recommends \
-        curl \
-        unzip; \
-    bash -c "$(curl -fsSL https://fnm.vercel.app/install)"; \
-    export FNM_PATH="/root/.local/share/fnm"; \
-    export PATH="$FNM_PATH:$PATH"; \
-    eval "`fnm env`"; \
-    fnm install 20; \
-    node -v; \
-    corepack enable yarn; \
-    yarn -v; \
-    yarn cache clean; \
     git clone --single-branch --branch $THINGSBOARD_GIT_BRANCH --progress $THINGSBOARD_GIT_REPO /src; \
     cd /src; \
+    rm ./msa/js-executor/yarn.lock; \
+    rm ./msa/web-ui/yarn.lock; \
+    rm ./ui-ngx/yarn.lock; \
     mvn clean install \
         dependency:copy-dependencies \
         -T 4 \
