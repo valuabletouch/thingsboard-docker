@@ -51,7 +51,7 @@ jobs:
     - name: Clean up build environment for additional disk space
       uses: rokibhasansagar/slimhub_actions@main
       with:
-          retain: "docker_buildkit,java_tools"
+          retain: "docker_buildkit"
 
     - name: List 100 largest packages after clean up
       if: ${{ inputs.debug }}
@@ -60,11 +60,6 @@ jobs:
     - name: Check disk spaces after clean up
       if: ${{ inputs.debug }}
       run: sudo df -hlT /
-
-    - name: Ensure Node.js & Yarn are installed
-      uses: actions/setup-node@v4
-      with:
-        node-version: 22
 
     - name: Checkout files
       uses: actions/checkout@v2

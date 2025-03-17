@@ -1,7 +1,15 @@
-FROM maven:3.9.6-eclipse-temurin-17
+FROM maven:3-eclipse-temurin-17
 
 ARG THINGSBOARD_GIT_REPO
 ARG THINGSBOARD_GIT_BRANCH
+
+RUN set -ex; \
+    curl -o- https://fnm.vercel.app/install | bash; \
+    . ~/.bashrc; \
+    fnm install 22; \
+    node -v; \
+    corepack enable yarn; \
+    yarn -v
 
 RUN set -ex; \
     git clone --single-branch --branch $THINGSBOARD_GIT_BRANCH --progress $THINGSBOARD_GIT_REPO /src; \
@@ -20,6 +28,8 @@ RUN set -ex; \
 RUN dpkg --force-all --install /src/msa/tb-node/target/thingsboard.deb
 RUN dpkg --force-all --install /src/msa/transport/coap/target/tb-coap-transport.deb
 RUN dpkg --force-all --install /src/msa/transport/http/target/tb-http-transport.deb
+RUN dpkg --force-all --install /src/msa/transport/lwm2m/target/tb-lwm2m-transport.deb
 RUN dpkg --force-all --install /src/msa/transport/mqtt/target/tb-mqtt-transport.deb
+RUN dpkg --force-all --install /src/msa/transport/snmp/target/tb-snmp-transport.deb
 RUN dpkg --force-all --install /src/msa/js-executor/target/tb-js-executor.deb
 RUN dpkg --force-all --install /src/msa/web-ui/target/tb-web-ui.deb
