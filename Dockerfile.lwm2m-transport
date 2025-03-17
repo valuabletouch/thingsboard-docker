@@ -1,0 +1,45 @@
+ARG IMAGE_REPOSITORY
+ARG IMAGE_VERSION
+
+FROM $IMAGE_REPOSITORY/build:$IMAGE_VERSION AS build
+
+ARG IMAGE_REPOSITORY
+
+FROM $IMAGE_REPOSITORY/base
+
+ARG THINGSBOARD_VERSION
+
+LABEL maintainer="yasin.akar@vtcenerji.com"
+
+COPY --from=build /usr/share/tb-lwm2m-transport/ /app/
+
+COPY logback.xml /app/conf/logback.xml
+
+COPY docker-entrypoint-lwm2m-transport.sh /usr/bin/docker-entrypoint.sh
+
+RUN dos2unix /usr/bin/docker-entrypoint.sh
+
+RUN set -ex; \
+    mkdir -p /app/log; \
+    chmod a+x /usr/bin/docker-entrypoint.sh; \
+    chown thingsboard:thingsboard /usr/bin/docker-entrypoint.sh; \
+    chown -R thingsboard:thingsboard /app; \
+    chown -R thingsboard:thingsboard /tmp
+
+ENV LOG_FILENAME=log.out
+
+ENV LOADER_PATH=/app/conf
+
+ENV JAVA_OPTS="$JAVA_OPTS -Dspring.jpa.hibernate.ddl-auto=none"
+ENV JAVA_OPTS="$JAVA_OPTS -Dplatform=deb -Xloggc:/app/log/gc.log"
+ENV JAVA_OPTS="$JAVA_OPTS -XX:+IgnoreUnrecognizedVMOptions -XX:+HeapDumpOnOutOfMemoryError -XX:+PrintGCDetails -XX:+PrintGCDateStamps"
+ENV JAVA_OPTS="$JAVA_OPTS -XX:+PrintHeapAtGC -XX:+PrintTenuringDistribution -XX:+PrintGCApplicationStoppedTime -XX:+UseGCLogFileRotation -XX:NumberOfGCLogFiles=10"
+ENV JAVA_OPTS="$JAVA_OPTS -XX:GCLogFileSize=10M -XX:-UseBiasedLocking -XX:+UseTLAB -XX:+ResizeTLAB -XX:+PerfDisableSharedMem -XX:+UseCondCardMark"
+ENV JAVA_OPTS="$JAVA_OPTS -XX:CMSWaitDuration=10000 -XX:+UseParNewGC -XX:+UseConcMarkSweepGC -XX:+CMSParallelRemarkEnabled -XX:+CMSParallelInitialMarkEnabled"
+ENV JAVA_OPTS="$JAVA_OPTS -XX:+CMSEdenChunksRecordAlways -XX:CMSInitiatingOccupancyFraction=75 -XX:+UseCMSInitiatingOccupancyOnly"
+
+USER thingsboard
+
+ENTRYPOINT ["docker-entrypoint.sh"]
+
+CMD []

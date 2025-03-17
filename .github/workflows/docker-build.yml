@@ -21,7 +21,7 @@ env:
   IMAGE_VERSION: build-${{ github.run_number }}
   THINGSBOARD_GIT_REPO: https://github.com/valuabletouch/thingsboard.git
   THINGSBOARD_GIT_BRANCH: master
-  THINGSBOARD_VERSION: "3.2.1"
+  THINGSBOARD_VERSION: "3.7.0"
 
 jobs:
   build:
