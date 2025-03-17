@@ -9,6 +9,12 @@ on:
 
   workflow_dispatch:
     inputs:
+      cleanup:
+        type: boolean
+        description: 'Clean up build environment for additional disk space'
+        required: false
+        default: false
+
       debug:
         type: boolean
         description: 'Enable debug mode'
@@ -43,12 +49,14 @@ jobs:
       run: dpkg-query -Wf '${Installed-Size}\t${Package}\n' | sort -nr | head -n 100
 
     - name: Ensure apt-fast is installed
+      if: ${{ inputs.cleanup }}
       run: |
         sudo add-apt-repository ppa:apt-fast/stable
         sudo apt-get update
         sudo apt-get -y install apt-fast
 
     - name: Clean up build environment for additional disk space
+      if: ${{ inputs.cleanup }}
       uses: rokibhasansagar/slimhub_actions@main
       with:
           retain: "docker_buildkit"
