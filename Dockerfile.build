@@ -16,9 +16,7 @@ RUN set -ex; \
     node -v; \
     corepack enable yarn; \
     yarn -v; \
-    yarn cache clean
-
-RUN set -ex; \
+    yarn cache clean; \
     git clone --single-branch --branch $THINGSBOARD_GIT_BRANCH --progress $THINGSBOARD_GIT_REPO /src; \
     cd /src; \
     yarn --update-checksums --cwd ./ui-ngx; \
