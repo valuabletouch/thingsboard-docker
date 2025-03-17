@@ -62,26 +62,11 @@ jobs:
       run: sudo df -hlT /
 
     - name: Ensure Node.js & Yarn are installed
-      run: |
-        set -ex
-
-        # Download and install fnm:
-        curl -o- https://fnm.vercel.app/install | bash
-
-        # Load fnm into the current shell:
-        source /home/runner/.bashrc
-
-        # Download and install Node.js:
-        fnm install 22
-
-        # Verify the Node.js version:
-        node -v
-
-        # Download and install Yarn:
-        corepack enable yarn
-
-        # Verify Yarn version:
-        yarn -v
+      uses: actions/setup-node@v4
+      with:
+        node-version: 22
+        cache: 'yarn'
+        cache-dependency-path: 'yarn.lock'
 
     - name: Checkout files
       uses: actions/checkout@v2
