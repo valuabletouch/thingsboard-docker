@@ -4,6 +4,10 @@ ARG THINGSBOARD_GIT_REPO
 ARG THINGSBOARD_GIT_BRANCH
 
 RUN set -ex; \
+    apt-get update; \
+    apt-get install -y --no-install-recommends \
+        curl \
+        unzip; \
     bash -c "$(curl -fsSL https://fnm.vercel.app/install)"; \
     . ~/.bashrc; \
     fnm install 22; \
