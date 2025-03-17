@@ -12,15 +12,17 @@ RUN set -ex; \
     export FNM_PATH="/root/.local/share/fnm"; \
     export PATH="$FNM_PATH:$PATH"; \
     eval "`fnm env`"; \
-    fnm install 22; \
+    fnm install 20; \
     node -v; \
     corepack enable yarn; \
     yarn -v; \
     yarn cache clean; \
     git clone --single-branch --branch $THINGSBOARD_GIT_BRANCH --progress $THINGSBOARD_GIT_REPO /src; \
     cd /src; \
-    yarn --update-checksums --cwd ./ui-ngx; \
+    rm ./msa/web-ui/yarn.lock; \
+    rm ./ui-ngx/yarn.lock; \
     yarn --update-checksums --cwd ./msa/js-executor; \
+    yarn --update-checksums --cwd ./ui-ngx; \
     mvn clean install \
         dependency:copy-dependencies \
         -T 4 \
