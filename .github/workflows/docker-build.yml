@@ -27,7 +27,6 @@ env:
   IMAGE_VERSION: build-${{ github.run_number }}
   THINGSBOARD_GIT_REPO: https://github.com/valuabletouch/thingsboard.git
   THINGSBOARD_GIT_BRANCH: master
-  THINGSBOARD_VERSION: "3.7.0"
 
 jobs:
   build:
@@ -96,7 +95,16 @@ jobs:
             --tag $IMAGE_REGISTRY/$IMAGE_REPOSITORY/node:$IMAGE_VERSION \
             --build-arg IMAGE_REPOSITORY=$IMAGE_REGISTRY/$IMAGE_REPOSITORY \
             --build-arg IMAGE_VERSION=$IMAGE_VERSION \
-            --build-arg THINGSBOARD_VERSION=$THINGSBOARD_VERSION \
+            .
+
+    - name: Build 'ThingsBoard Entity Data Query Microservice' Docker Image
+      run: |
+        docker build \
+            --file Dockerfile.edqs \
+            --tag $IMAGE_REGISTRY/$IMAGE_REPOSITORY/edqs:latest \
+            --tag $IMAGE_REGISTRY/$IMAGE_REPOSITORY/edqs:$IMAGE_VERSION \
+            --build-arg IMAGE_REPOSITORY=$IMAGE_REGISTRY/$IMAGE_REPOSITORY \
+            --build-arg IMAGE_VERSION=$IMAGE_VERSION \
             .
 
     - name: Build 'ThingsBoard Monitoring Microservice' Docker Image
@@ -107,7 +115,6 @@ jobs:
             --tag $IMAGE_REGISTRY/$IMAGE_REPOSITORY/monitoring:$IMAGE_VERSION \
             --build-arg IMAGE_REPOSITORY=$IMAGE_REGISTRY/$IMAGE_REPOSITORY \
             --build-arg IMAGE_VERSION=$IMAGE_VERSION \
-            --build-arg THINGSBOARD_VERSION=$THINGSBOARD_VERSION \
             .
 
     - name: Build 'ThingsBoard COAP Transport Microservice' Docker Image
@@ -118,7 +125,6 @@ jobs:
             --tag $IMAGE_REGISTRY/$IMAGE_REPOSITORY/coap-transport:$IMAGE_VERSION \
             --build-arg IMAGE_REPOSITORY=$IMAGE_REGISTRY/$IMAGE_REPOSITORY \
             --build-arg IMAGE_VERSION=$IMAGE_VERSION \
-            --build-arg THINGSBOARD_VERSION=$THINGSBOARD_VERSION \
             .
 
     - name: Build 'ThingsBoard HTTP Transport Microservice' Docker Image
@@ -129,7 +135,6 @@ jobs:
             --tag $IMAGE_REGISTRY/$IMAGE_REPOSITORY/http-transport:$IMAGE_VERSION \
             --build-arg IMAGE_REPOSITORY=$IMAGE_REGISTRY/$IMAGE_REPOSITORY \
             --build-arg IMAGE_VERSION=$IMAGE_VERSION \
-            --build-arg THINGSBOARD_VERSION=$THINGSBOARD_VERSION \
             .
 
     - name: Build 'ThingsBoard LWM2M Transport Microservice' Docker Image
@@ -140,7 +145,6 @@ jobs:
             --tag $IMAGE_REGISTRY/$IMAGE_REPOSITORY/lwm2m-transport:$IMAGE_VERSION \
             --build-arg IMAGE_REPOSITORY=$IMAGE_REGISTRY/$IMAGE_REPOSITORY \
             --build-arg IMAGE_VERSION=$IMAGE_VERSION \
-            --build-arg THINGSBOARD_VERSION=$THINGSBOARD_VERSION \
             .
 
     - name: Build 'ThingsBoard MQTT Transport Microservice' Docker Image
@@ -151,7 +155,6 @@ jobs:
             --tag $IMAGE_REGISTRY/$IMAGE_REPOSITORY/mqtt-transport:$IMAGE_VERSION \
             --build-arg IMAGE_REPOSITORY=$IMAGE_REGISTRY/$IMAGE_REPOSITORY \
             --build-arg IMAGE_VERSION=$IMAGE_VERSION \
-            --build-arg THINGSBOARD_VERSION=$THINGSBOARD_VERSION \
             .
 
     - name: Build 'ThingsBoard SNMP Transport Microservice' Docker Image
@@ -162,7 +165,16 @@ jobs:
             --tag $IMAGE_REGISTRY/$IMAGE_REPOSITORY/snmp-transport:$IMAGE_VERSION \
             --build-arg IMAGE_REPOSITORY=$IMAGE_REGISTRY/$IMAGE_REPOSITORY \
             --build-arg IMAGE_VERSION=$IMAGE_VERSION \
-            --build-arg THINGSBOARD_VERSION=$THINGSBOARD_VERSION \
+            .
+
+    - name: Build 'ThingsBoard Version Control Executor Microservice' Docker Image
+      run: |
+        docker build \
+            --file Dockerfile.vc-executor \
+            --tag $IMAGE_REGISTRY/$IMAGE_REPOSITORY/vc-executor:latest \
+            --tag $IMAGE_REGISTRY/$IMAGE_REPOSITORY/vc-executor:$IMAGE_VERSION \
+            --build-arg IMAGE_REPOSITORY=$IMAGE_REGISTRY/$IMAGE_REPOSITORY \
+            --build-arg IMAGE_VERSION=$IMAGE_VERSION \
             .
 
     - name: Build 'ThingsBoard JavaScript Executor Microservice' Docker Image
@@ -173,7 +185,6 @@ jobs:
             --tag $IMAGE_REGISTRY/$IMAGE_REPOSITORY/js-executor:$IMAGE_VERSION \
             --build-arg IMAGE_REPOSITORY=$IMAGE_REGISTRY/$IMAGE_REPOSITORY \
             --build-arg IMAGE_VERSION=$IMAGE_VERSION \
-            --build-arg THINGSBOARD_VERSION=$THINGSBOARD_VERSION \
             .
 
     - name: Build 'ThingsBoard Web UI Microservice' Docker Image
@@ -184,7 +195,6 @@ jobs:
             --tag $IMAGE_REGISTRY/$IMAGE_REPOSITORY/web-ui:$IMAGE_VERSION \
             --build-arg IMAGE_REPOSITORY=$IMAGE_REGISTRY/$IMAGE_REPOSITORY \
             --build-arg IMAGE_VERSION=$IMAGE_VERSION \
-            --build-arg THINGSBOARD_VERSION=$THINGSBOARD_VERSION \
             .
 
     - name: Login to Docker Registry
@@ -202,6 +212,12 @@ jobs:
 
     - name: Push 'ThingsBoard Node Microservice' Image to Docker Registry (build)
       run: docker push $IMAGE_REGISTRY/$IMAGE_REPOSITORY/node:$IMAGE_VERSION
+
+    - name: Push 'ThingsBoard Entity Data Query Microservice' Image to Docker Registry (latest)
+      run: docker push $IMAGE_REGISTRY/$IMAGE_REPOSITORY/edqs:latest
+
+    - name: Push 'ThingsBoard Entity Data Query Microservice' Image to Docker Registry (build)
+      run: docker push $IMAGE_REGISTRY/$IMAGE_REPOSITORY/edqs:$IMAGE_VERSION
 
     - name: Push 'ThingsBoard Monitoring Microservice' Image to Docker Registry (latest)
       run: docker push $IMAGE_REGISTRY/$IMAGE_REPOSITORY/monitoring:latest
@@ -238,6 +254,12 @@ jobs:
 
     - name: Push 'ThingsBoard SNMP Transport Microservice' Image to Docker Registry (build)
       run: docker push $IMAGE_REGISTRY/$IMAGE_REPOSITORY/snmp-transport:$IMAGE_VERSION
+
+    - name: Push 'ThingsBoard Version Control Executor Microservice' Image to Docker Registry (latest)
+      run: docker push $IMAGE_REGISTRY/$IMAGE_REPOSITORY/vc-executor:latest
+
+    - name: Push 'ThingsBoard Version Control Executor Microservice' Image to Docker Registry (build)
+      run: docker push $IMAGE_REGISTRY/$IMAGE_REPOSITORY/vc-executor:$IMAGE_VERSION
 
     - name: Push 'ThingsBoard JavaScript Executor Microservice' Image to Docker Registry (latest)
       run: docker push $IMAGE_REGISTRY/$IMAGE_REPOSITORY/js-executor:latest

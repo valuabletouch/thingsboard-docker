@@ -6,9 +6,6 @@ ARG THINGSBOARD_GIT_BRANCH
 RUN set -ex; \
     git clone --single-branch --branch $THINGSBOARD_GIT_BRANCH --progress $THINGSBOARD_GIT_REPO /src; \
     cd /src; \
-    rm ./msa/js-executor/yarn.lock; \
-    rm ./msa/web-ui/yarn.lock; \
-    rm ./ui-ngx/yarn.lock; \
     mvn clean install \
         dependency:copy-dependencies \
         -T 4 \
@@ -21,11 +18,15 @@ RUN set -ex; \
         -DblackBoxTests.skip=true
 
 RUN dpkg --force-all --install /src/msa/tb-node/target/thingsboard.deb
+
+RUN dpkg --force-all --install /src/msa/tb-edqs/target/tb-edqs.deb
 RUN dpkg --force-all --install /src/msa/tb-monitoring/target/tb-monitoring.deb
 RUN dpkg --force-all --install /src/msa/transport/coap/target/tb-coap-transport.deb
 RUN dpkg --force-all --install /src/msa/transport/http/target/tb-http-transport.deb
 RUN dpkg --force-all --install /src/msa/transport/lwm2m/target/tb-lwm2m-transport.deb
 RUN dpkg --force-all --install /src/msa/transport/mqtt/target/tb-mqtt-transport.deb
 RUN dpkg --force-all --install /src/msa/transport/snmp/target/tb-snmp-transport.deb
+RUN dpkg --force-all --install /src/msa/vc-executor/target/tb-vc-executor.deb
+
 RUN dpkg --force-all --install /src/msa/js-executor/target/tb-js-executor.deb
 RUN dpkg --force-all --install /src/msa/web-ui/target/tb-web-ui.deb

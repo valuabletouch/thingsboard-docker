@@ -9,11 +9,11 @@ FROM $IMAGE_REPOSITORY/base
 
 LABEL maintainer="yasin.akar@vtcenerji.com"
 
-COPY --from=build /usr/share/tb-coap-transport/ /app/
+COPY --from=build /usr/share/tb-edqs/ /app/
 
 COPY logback.xml /app/conf/logback.xml
 
-COPY docker-entrypoint-coap-transport.sh /usr/bin/docker-entrypoint.sh
+COPY docker-entrypoint-edqs.sh /usr/bin/docker-entrypoint.sh
 
 RUN dos2unix /usr/bin/docker-entrypoint.sh
 

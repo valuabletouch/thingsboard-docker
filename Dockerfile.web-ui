@@ -5,11 +5,8 @@ FROM $IMAGE_REPOSITORY/build:$IMAGE_VERSION AS build
 
 FROM debian
 
-ARG THINGSBOARD_VERSION
-
 LABEL maintainer="yasin.akar@vtcenerji.com"
 
-ENV TB_VERSION=${THINGSBOARD_VERSION}
 ENV DOCKER_MODE=true
 ENV NODE_ENV=production
 ENV NODE_CONFIG_DIR=/app/conf

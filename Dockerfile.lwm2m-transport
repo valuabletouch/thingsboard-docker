@@ -7,8 +7,6 @@ ARG IMAGE_REPOSITORY
 
 FROM $IMAGE_REPOSITORY/base
 
-ARG THINGSBOARD_VERSION
-
 LABEL maintainer="yasin.akar@vtcenerji.com"
 
 COPY --from=build /usr/share/tb-lwm2m-transport/ /app/
