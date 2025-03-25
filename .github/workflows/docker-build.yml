@@ -97,16 +97,6 @@ jobs:
             --build-arg IMAGE_VERSION=$IMAGE_VERSION \
             .
 
-    - name: Build 'ThingsBoard Entity Data Query Microservice' Docker Image
-      run: |
-        docker build \
-            --file Dockerfile.edqs \
-            --tag $IMAGE_REGISTRY/$IMAGE_REPOSITORY/edqs:latest \
-            --tag $IMAGE_REGISTRY/$IMAGE_REPOSITORY/edqs:$IMAGE_VERSION \
-            --build-arg IMAGE_REPOSITORY=$IMAGE_REGISTRY/$IMAGE_REPOSITORY \
-            --build-arg IMAGE_VERSION=$IMAGE_VERSION \
-            .
-
     - name: Build 'ThingsBoard Monitoring Microservice' Docker Image
       run: |
         docker build \
@@ -212,12 +202,6 @@ jobs:
 
     - name: Push 'ThingsBoard Node Microservice' Image to Docker Registry (build)
       run: docker push $IMAGE_REGISTRY/$IMAGE_REPOSITORY/node:$IMAGE_VERSION
-
-    - name: Push 'ThingsBoard Entity Data Query Microservice' Image to Docker Registry (latest)
-      run: docker push $IMAGE_REGISTRY/$IMAGE_REPOSITORY/edqs:latest
-
-    - name: Push 'ThingsBoard Entity Data Query Microservice' Image to Docker Registry (build)
-      run: docker push $IMAGE_REGISTRY/$IMAGE_REPOSITORY/edqs:$IMAGE_VERSION
 
     - name: Push 'ThingsBoard Monitoring Microservice' Image to Docker Registry (latest)
       run: docker push $IMAGE_REGISTRY/$IMAGE_REPOSITORY/monitoring:latest
