@@ -13,7 +13,7 @@ on:
         type: boolean
         description: 'Clean up build environment for additional disk space'
         required: false
-        default: false
+        default: true
 
       debug:
         type: boolean
@@ -200,9 +200,6 @@ jobs:
         registry: ${{ env.IMAGE_REGISTRY }}
         username: ${{ github.repository_owner }}
         password: ${{ secrets.PUSH_PACKAGE_PAT }}
-
-    - name: Push 'ThingsBoard Base' Image to Docker Registry (latest)
-      run: docker push $IMAGE_REGISTRY/$IMAGE_REPOSITORY/base:latest
 
     - name: Push 'ThingsBoard Node Microservice' Image to Docker Registry (latest)
       run: docker push $IMAGE_REGISTRY/$IMAGE_REPOSITORY/node:latest
