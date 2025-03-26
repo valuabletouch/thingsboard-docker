@@ -1,4 +1,4 @@
-FROM alpine
+FROM debian:slim
 
 LABEL org.opencontainers.image.authors="yasin.akar@vtcenerji.com"
 
