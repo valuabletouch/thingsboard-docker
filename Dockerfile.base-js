@@ -1,6 +1,11 @@
-FROM eclipse-temurin:17-jre-alpine
+FROM alpine
 
-RUN apk add --no-cache bash dos2unix
+LABEL org.opencontainers.image.authors="yasin.akar@vtcenerji.com"
+
+ENV DOCKER_MODE=true
+ENV NODE_ENV=production
+ENV NODE_CONFIG_DIR=/app/conf
+ENV LOG_FOLDER=/app/log
 
 RUN addgroup \
         --system thingsboard \

@@ -71,14 +71,21 @@ jobs:
     - name: Checkout files
       uses: actions/checkout@v2
 
-    - name: Build 'ThingsBoard Base' Docker Image
+    - name: Build 'ThingsBoard Base Java' Docker Image
       run: |
         docker build \
-            --file Dockerfile.base \
-            --tag $IMAGE_REGISTRY/$IMAGE_REPOSITORY/base:latest \
+            --file Dockerfile.base-java \
+            --tag $IMAGE_REGISTRY/$IMAGE_REPOSITORY/base/java:latest \
             .
 
-    - name: Build 'ThingsBoard Build Intermadiate' Docker Image
+    - name: Build 'ThingsBoard Base JavaScript' Docker Image
+      run: |
+        docker build \
+            --file Dockerfile.base-js \
+            --tag $IMAGE_REGISTRY/$IMAGE_REPOSITORY/base/js:latest \
+            .
+
+    - name: Build 'ThingsBoard Build Intermediate' Docker Image
       run: |
         docker build \
             --file Dockerfile.build \

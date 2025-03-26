@@ -1,0 +1,29 @@
+FROM eclipse-temurin:17-jre-alpine
+
+LABEL org.opencontainers.image.authors="yasin.akar@vtcenerji.com"
+
+RUN apk add --no-cache bash dos2unix
+
+RUN addgroup \
+        --system thingsboard \
+        --gid 799 && \
+    adduser \
+        --system \
+        --uid 799 \
+        --ingroup thingsboard \
+        --disabled-password \
+        --no-create-home \
+        --gecos "V-Sensor Application" \
+        thingsboard
+
+ENV LOG_FILENAME=log.out
+
+ENV LOADER_PATH=/app/conf
+
+ENV JAVA_OPTS="$JAVA_OPTS -Dspring.jpa.hibernate.ddl-auto=none"
+ENV JAVA_OPTS="$JAVA_OPTS -Dplatform=deb -Xloggc:/app/log/gc.log"
+ENV JAVA_OPTS="$JAVA_OPTS -XX:+IgnoreUnrecognizedVMOptions -XX:+HeapDumpOnOutOfMemoryError -XX:+PrintGCDetails -XX:+PrintGCDateStamps"
+ENV JAVA_OPTS="$JAVA_OPTS -XX:+PrintHeapAtGC -XX:+PrintTenuringDistribution -XX:+PrintGCApplicationStoppedTime -XX:+UseGCLogFileRotation -XX:NumberOfGCLogFiles=10"
+ENV JAVA_OPTS="$JAVA_OPTS -XX:GCLogFileSize=10M -XX:-UseBiasedLocking -XX:+UseTLAB -XX:+ResizeTLAB -XX:+PerfDisableSharedMem -XX:+UseCondCardMark"
+ENV JAVA_OPTS="$JAVA_OPTS -XX:CMSWaitDuration=10000 -XX:+UseParNewGC -XX:+UseConcMarkSweepGC -XX:+CMSParallelRemarkEnabled -XX:+CMSParallelInitialMarkEnabled"
+ENV JAVA_OPTS="$JAVA_OPTS -XX:+CMSEdenChunksRecordAlways -XX:CMSInitiatingOccupancyFraction=75 -XX:+UseCMSInitiatingOccupancyOnly"

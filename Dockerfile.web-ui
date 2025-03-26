@@ -3,32 +3,15 @@ ARG IMAGE_VERSION
 
 FROM $IMAGE_REPOSITORY/build:$IMAGE_VERSION AS build
 
-FROM debian
+FROM $IMAGE_REPOSITORY/base/js
 
-LABEL maintainer="yasin.akar@vtcenerji.com"
-
-ENV DOCKER_MODE=true
-ENV NODE_ENV=production
-ENV NODE_CONFIG_DIR=/app/conf
 ENV WEB_FOLDER=/app/web
-ENV LOG_FOLDER=/app/log
 
 COPY --from=build /usr/share/tb-web-ui/ /app/
 
 COPY logback.xml /app/conf/logback.xml
 
 RUN set -ex; \
-    addgroup \
-        --system thingsboard \
-        --gid 799; \
-    adduser \
-        --system \
-        --uid 799 \
-        --ingroup thingsboard \
-        --disabled-password \
-        --no-create-home \
-        --gecos "V-Sensor Application" \
-        thingsboard; \
     mkdir -p /app/log; \
     chown -R thingsboard:thingsboard /app; \
     chown -R thingsboard:thingsboard /tmp; \
